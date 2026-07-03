@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="msvalidate.01" content="FCCB324DC27E060EF648ACA7A6675844" />
+<title>关于我们 - Termux交流社区</title>
+<meta name="keywords" content="Termux交流社区,关于我们,社区介绍,Termux用户,Linux终端社区" />
+<meta name="description" content="了解Termux交流社区的成立初衷、发展历程、核心团队以及社区愿景。" />
+<meta name="author" content="Termux交流社区" />
+<meta name="robots" content="index, follow" />
+<meta property="og:title" content="关于我们 - Termux交流社区" />
+<meta property="og:description" content="了解Termux交流社区的成立初衷、发展历程、核心团队以及社区愿景。" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://yourdomain.com/about.html" />
+<meta property="og:image" content="https://tc.z.wiki/autoupload/f/GENHffITdBvXEWFzr34st3WHG78jThlq6-h0TTlulE-yl5f0KlZfm6UsKj-HyTuv/20250716/AUd6/1131X1131/IMG_20250716_095822.jpg" />
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root { --primary: #2c3e50; --accent: #3498db; --accent-hover: #2980b9; --accent-light: #e3f2fd; --danger: #e74c3c; --success: #27ae60; --warning: #f39c12; --bg: #f0f2f5; --card-bg: #ffffff; --text: #333333; --text-light: #666666; --text-muted: #888888; --shadow-sm: 0 2px 8px rgba(0,0,0,0.06); --shadow: 0 8px 24px rgba(0,0,0,0.08); --shadow-lg: 0 16px 40px rgba(0,0,0,0.12); --radius: 12px; --radius-sm: 8px; --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text); line-height: 1.7; font-family: 'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif; overflow-x: hidden; }
+.top-nav { position: fixed; top: 0; left: 0; right: 0; height: 60px; background: rgba(255,255,255,0.92); backdrop-filter: blur(12px); box-shadow: var(--shadow-sm); z-index: 998; display: flex; align-items: center; justify-content: space-between; padding: 0 30px; transition: var(--transition); }
+.top-nav.scrolled { box-shadow: var(--shadow); }
+.nav-brand { display: flex; align-items: center; gap: 10px; font-size: 1.2rem; font-weight: 700; color: var(--primary); text-decoration: none; }
+.nav-brand svg { width: 28px; height: 28px; fill: var(--accent); }
+.nav-links { display: flex; gap: 30px; list-style: none; }
+.nav-links a { text-decoration: none; color: var(--text-light); font-size: 0.95rem; font-weight: 500; position: relative; transition: var(--transition); }
+.nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px; background: var(--accent); transition: var(--transition); }
+.nav-links a:hover,.nav-links a.active { color: var(--accent); }
+.nav-links a:hover::after,.nav-links a.active::after { width: 100%; }
+.menu-toggle { display: none; position: fixed; top: 16px; right: 20px; z-index: 1000; cursor: pointer; width: 32px; height: 32px; flex-direction: column; justify-content: center; align-items: center; gap: 5px; background: rgba(255,255,255,0.9); border-radius: 6px; padding: 4px; box-shadow: var(--shadow-sm); }
+.menu-toggle span { display: block; width: 20px; height: 2.5px; background: var(--primary); border-radius: 2px; transition: 0.3s; }
+.menu-toggle.active span:nth-child(1) { transform: rotate(45deg) translate(5px,5px); }
+.menu-toggle.active span:nth-child(2) { opacity: 0; }
+.menu-toggle.active span:nth-child(3) { transform: rotate(-45deg) translate(5px,-5px); }
+.menu { position: fixed; top: 0; right: -320px; width: 320px; height: 100vh; background: linear-gradient(135deg,#fff 0%,#f8fafc 100%); box-shadow: -10px 0 30px rgba(0,0,0,0.1); transition: right 0.35s cubic-bezier(0.4,0,0.2,1); z-index: 999; padding: 80px 30px 30px; overflow-y: auto; }
+.menu.active { right: 0; }
+.menu-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); opacity: 0; visibility: hidden; transition: 0.3s; z-index: 998; }
+.menu-overlay.active { opacity: 1; visibility: visible; }
+.menu ul { list-style: none; }
+.menu ul li { margin-bottom: 5px; }
+.menu ul li a { display: block; text-decoration: none; color: var(--text); font-size: 1.1rem; font-weight: 500; padding: 14px 18px; border-radius: var(--radius-sm); transition: var(--transition); }
+.menu ul li a:hover,.menu ul li a.active { background: var(--accent-light); color: var(--accent); }
+.menu-divider { height: 1px; background: linear-gradient(to right,transparent,#e0e0e0,transparent); margin: 15px 0; }
+.menu-section-title { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-muted); padding: 10px 18px; font-weight: 600; }
+.close-btn { position: absolute; top: 18px; right: 20px; background: none; border: none; font-size: 1.4rem; cursor: pointer; color: var(--text-muted); width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: var(--transition); }
+.close-btn:hover { background: var(--accent-light); color: var(--accent); }
+.content-container { max-width: 1200px; margin: 0 auto; padding: 90px 20px 40px; }
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 14px 32px; border-radius: 50px; text-decoration: none; font-weight: 600; font-size: 1rem; transition: var(--transition); border: none; cursor: pointer; }
+.btn-primary { background: linear-gradient(135deg,var(--accent) 0%,var(--accent-hover) 100%); color: #fff; box-shadow: 0 4px 15px rgba(52,152,219,0.35); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(52,152,219,0.45); }
+.btn-success { background: linear-gradient(135deg,var(--success) 0%,#219a52 100%); color: #fff; box-shadow: 0 4px 15px rgba(39,174,96,0.35); }
+.btn-success:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(39,174,96,0.45); }
+footer { background: linear-gradient(135deg,#1a252f 0%,#2c3e50 100%); color: rgba(255,255,255,0.8); text-align: center; padding: 50px 20px 30px; margin-top: 60px; position: relative; }
+footer::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg,var(--accent),#5dade2,var(--success),#2ecc71); }
+.footer-content { max-width: 800px; margin: 0 auto; }
+.footer-links { display: flex; justify-content: center; flex-wrap: wrap; gap: 20px; margin-bottom: 25px; }
+.footer-links a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 0.9rem; transition: var(--transition); }
+.footer-links a:hover { color: var(--accent); }
+footer p { font-size: 0.9rem; color: rgba(255,255,255,0.5); }
+footer .footer-special { color: #9b59b6; text-decoration: none; font-weight: 600; transition: var(--transition); }
+footer .footer-special:hover { color: #bb6bd9; text-decoration: underline; }
+.back-to-top { position: fixed; bottom: 30px; right: 30px; width: 48px; height: 48px; background: linear-gradient(135deg,var(--accent) 0%,var(--accent-hover) 100%); color: #fff; border: none; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; box-shadow: 0 4px 15px rgba(52,152,219,0.4); opacity: 0; visibility: hidden; transition: var(--transition); z-index: 997; }
+.back-to-top.visible { opacity: 1; visibility: visible; }
+.back-to-top:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(52,152,219,0.5); }
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+.animate-in { animation: fadeInUp 0.6s ease forwards; }
+
+.page-header { text-align: center; padding: 50px 20px 30px; }
+.page-header h1 { font-size: 2.5rem; color: var(--primary); margin-bottom: 12px; }
+.page-header p { color: var(--text-muted); font-size: 1.1rem; }
+.about-section { padding: 40px 20px; max-width: 900px; margin: 0 auto; }
+.about-section h2 { font-size: 1.8rem; color: var(--primary); margin-bottom: 25px; text-align: center; }
+.about-content p { color: var(--text-light); font-size: 1.05rem; line-height: 1.8; margin-bottom: 15px; }
+.timeline { position: relative; padding-left: 30px; }
+.timeline::before { content: ''; position: absolute; left: 8px; top: 0; bottom: 0; width: 2px; background: linear-gradient(to bottom,var(--accent),var(--success)); }
+.timeline-item { position: relative; margin-bottom: 35px; padding-left: 30px; }
+.timeline-dot { position: absolute; left: -26px; top: 5px; width: 16px; height: 16px; background: var(--accent); border-radius: 50%; border: 3px solid var(--card-bg); box-shadow: 0 0 0 3px var(--accent-light); }
+.timeline-date { display: inline-block; background: var(--accent-light); color: var(--accent); padding: 4px 14px; border-radius: 50px; font-size: 0.8rem; font-weight: 700; margin-bottom: 8px; }
+.timeline-content h3 { font-size: 1.2rem; color: var(--primary); margin-bottom: 8px; }
+.timeline-content p { color: var(--text-light); font-size: 0.95rem; }
+.stats-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(150px,1fr)); gap: 20px; max-width: 700px; margin: 0 auto; }
+.stat-card { background: var(--card-bg); border-radius: var(--radius); padding: 30px 20px; text-align: center; box-shadow: var(--shadow-sm); border: 1px solid rgba(0,0,0,0.04); transition: var(--transition); }
+.stat-card:hover { transform: translateY(-5px); box-shadow: var(--shadow); }
+.stat-number { font-size: 2.2rem; font-weight: 700; color: var(--accent); margin-bottom: 8px; }
+.stat-label { color: var(--text-muted); font-size: 0.9rem; }
+.about-cta { text-align: center; padding: 50px 20px; background: linear-gradient(135deg,#f0f7ff 0%,#e8f4fd 100%); border-radius: var(--radius); margin: 40px 0; }
+.about-cta h2 { font-size: 1.8rem; color: var(--primary); margin-bottom: 12px; }
+.about-cta p { color: var(--text-light); font-size: 1.05rem; }
+.intro-actions { display: flex; gap: 15px; justify-content: center; margin-top: 35px; flex-wrap: wrap; }
+.card-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(300px,1fr)); gap: 25px; }
+.card { background: var(--card-bg); border-radius: var(--radius); padding: 30px; box-shadow: var(--shadow-sm); transition: var(--transition); border: 1px solid rgba(0,0,0,0.04); position: relative; overflow: hidden; }
+.card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); }
+.card-icon { width: 52px; height: 52px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 18px; }
+.card h3 { font-size: 1.2rem; margin-bottom: 10px; color: var(--primary); }
+.card p { color: var(--text-light); font-size: 0.95rem; line-height: 1.6; }
+
+@media(max-width:768px){ .top-nav{padding:0 15px} .nav-links{display:none} .menu-toggle{display:flex} .content-container{padding:80px 15px 30px} .page-header h1{font-size:2rem} .timeline{padding-left:20px} .timeline-item{padding-left:20px} .card-grid{grid-template-columns:1fr} .card{padding:25px 20px} .btn{width:100%;max-width:280px;justify-content:center} }
+@media(max-width:480px){ .page-header h1{font-size:1.7rem} .stat-number{font-size:1.8rem} }
+</style>
+</head>
+<body>
+<nav class="top-nav" id="topNav">
+<a href="index.html" class="nav-brand">
+Termux交流社区
+</a>
+<ul class="nav-links">
+<li><a href="index.html">首页</a></li>
+<li><a href="about.html" class="active">关于我们</a></li>
+<li><a href="downloads.html">下载中心</a></li>
+<li><a href="articles.html">推荐文章</a></li>
+<li><a href="announcement.html">公告</a></li>
+<li><a href="contact.html">联系我们</a></li>
+</ul>
+</nav>
+<div class="menu-toggle" id="menuToggle"><span></span><span></span><span></span></div>
+<div class="menu-overlay" id="menuOverlay"></div>
+<div class="menu" id="menu">
+<button class="close-btn" id="closeMenu">✕</button>
+<ul>
+<li><a href="index.html">🏠 首页</a></li>
+<li><a href="about.html" class="active">📖 关于我们</a></li>
+<li><a href="downloads.html">⬇️ 下载中心</a></li>
+<li><a href="articles.html">📄 推荐文章</a></li>
+<li><a href="announcement.html">📢 社区公告</a></li>
+<li><a href="contact.html">📧 联系我们</a></li>
+<div class="menu-divider"></div>
+<div class="menu-section-title">官方资源</div>
+<li><a href="https://termux.com" target="_blank">🌐 Termux官网</a></li>
+<li><a href="https://wiki.termux.com" target="_blank">📚 官方Wiki</a></li>
+<li><a href="https://github.com/termux" target="_blank">💻 GitHub仓库</a></li>
+<li><a href="https://termux.dev" target="_blank">🔧 开发者平台</a></li>
+</ul>
+</div>
+
+<div class="content-container">
+<div class="page-header">
+<h1>📖 关于我们</h1>
+<p>了解Termux交流社区的故事</p>
+</div>
+
+<div class="about-section">
+<div class="about-content">
+<h2>我们的初衷</h2>
+<p>Termux交流社区成立的初衷，是为分散的Termux用户搭建一个集中交流的平台。我们希望打破信息壁垒，让优质的Termux技术资源和经验得以共享，共同构建更繁荣的Termux生态系统。</p>
+<p>在移动互联网时代，越来越多的开发者选择在手机上进行编程学习和开发实践。Termux作为Android平台上最强大的终端模拟器，让这一切成为可能。</p>
+</div>
+</div>
+
+<div class="about-section">
+<h2>发展历程</h2>
+<div class="timeline">
+<div class="timeline-item">
+<div class="timeline-dot"></div>
+<div class="timeline-content">
+<span class="timeline-date">2024</span>
+<h3>社区成立</h3>
+<p>Termux交流社区正式成立，首批成员聚集在QQ群，开始分享使用经验。</p>
+</div>
+</div>
+<div class="timeline-item">
+<div class="timeline-dot"></div>
+<div class="timeline-content">
+<span class="timeline-date">2025</span>
+<h3>多平台扩展</h3>
+<p>社区扩展至QQ频道、哔哩哔哩、CSDN博客等多平台，成员数量快速增长。</p>
+</div>
+</div>
+<div class="timeline-item">
+<div class="timeline-dot"></div>
+<div class="timeline-content">
+<span class="timeline-date">2026</span>
+<h3>全新官网</h3>
+<p>社区官方网站上线，提供更完善的内容展示和资源下载服务。</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="about-section">
+<h2>社区数据</h2>
+<div class="stats-grid">
+<div class="stat-card"><div class="stat-number">2000+</div><div class="stat-label">社区成员</div></div>
+<div class="stat-card"><div class="stat-number">500+</div><div class="stat-label">技术文章</div></div>
+<div class="stat-card"><div class="stat-number">50+</div><div class="stat-label">开源项目</div></div>
+<div class="stat-card"><div class="stat-number">100+</div><div class="stat-label">脚本工具</div></div>
+</div>
+</div>
+
+<div class="about-section">
+<h2>社区板块</h2>
+<div class="card-grid">
+<div class="card"><div class="card-icon" style="background:linear-gradient(135deg,#e3f2fd 0%,#bbdefb 100%);">🆕</div><h3>新手入门</h3><p>从零开始学习Termux，环境配置、基础命令、常见问题一站式解决。</p></div>
+<div class="card"><div class="card-icon" style="background:linear-gradient(135deg,#e8f5e9 0%,#c8e6c9 100%);">⚡</div><h3>进阶技巧</h3><p>深入探索Termux高级功能，性能优化、自定义配置、插件开发。</p></div>
+<div class="card"><div class="card-icon" style="background:linear-gradient(135deg,#fff3e0 0%,#ffe0b2 100%);">💻</div><h3>脚本开发</h3><p>Shell脚本、Python脚本分享与讨论，自动化工具开发交流。</p></div>
+<div class="card"><div class="card-icon" style="background:linear-gradient(135deg,#fce4ec 0%,#f8bbd0 100%);">🚀</div><h3>项目实战</h3><p>基于Termux的完整项目案例，Web服务器、数据库、开发环境搭建。</p></div>
+</div>
+</div>
+
+<div class="about-cta">
+<h2>加入我们</h2>
+<p>无论你是Termux新手还是资深玩家，都欢迎加入我们的大家庭。</p>
+<div class="intro-actions" style="margin-top:30px;">
+<a href="contact.html" class="btn btn-primary">📧 联系我们</a>
+<a href="https://pd.qq.com/s/fsp0rzag2" class="btn btn-success" target="_blank">🚀 加入频道</a>
+</div>
+</div>
+</div>
+
+<button class="back-to-top" id="backToTop" title="回到顶部">↑</button>
+<footer>
+<div class="footer-content">
+<div class="footer-links">
+<a href="index.html">首页</a>
+<a href="about.html">关于我们</a>
+<a href="downloads.html">下载中心</a>
+<a href="articles.html">推荐文章</a>
+<a href="announcement.html">公告</a>
+<a href="contact.html">联系我们</a>
+</div>
+<p>&copy; 2026 Termux交流社区. 保留所有权利.</p>
+</div>
+</footer>
+<script src="common.js"></script>
+</body>
+</html>

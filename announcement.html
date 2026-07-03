@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="msvalidate.01" content="FCCB324DC27E060EF648ACA7A6675844" />
+  <title>社区公告 - Termux交流社区</title>
+  <meta name="keywords" content="Termux社区公告,Termux活动,Termux避坑指南,社区动态" />
+  <meta name="description" content="Termux交流社区最新公告和活动通知，了解社区最新动态和参与方式。" />
+  <meta name="author" content="Termux交流社区" />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:title" content="社区公告 - Termux交流社区" />
+  <meta property="og:description" content="Termux交流社区最新公告和活动通知，了解社区最新动态和参与方式。" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://yourdomain.com/announcement.html" />
+  <meta property="og:image" content="https://tc.z.wiki/autoupload/f/GENHffITdBvXEWFzr34st3WHG78jThlq6-h0TTlulE-yl5f0KlZfm6UsKj-HyTuv/20250716/AUd6/1131X1131/IMG_20250716_095822.jpg" />
+  <style>
+:root {
+  --primary: #2c3e50;
+  --accent: #3498db;
+  --accent-hover: #2980b9;
+  --accent-light: #e3f2fd;
+  --danger: #e74c3c;
+  --success: #27ae60;
+  --warning: #f39c12;
+  --bg: #f0f2f5;
+  --card-bg: #ffffff;
+  --text: #333333;
+  --text-light: #666666;
+  --text-muted: #888888;
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
+  --shadow: 0 8px 24px rgba(0,0,0,0.08);
+  --shadow-lg: 0 16px 40px rgba(0,0,0,0.12);
+  --radius: 12px;
+  --radius-sm: 8px;
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  font-family: 'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;
+  overflow-x: hidden;
+}
+
+.top-nav {
+  position: fixed; top: 0; left: 0; right: 0; height: 60px;
+  background: rgba(255,255,255,0.92); backdrop-filter: blur(12px);
+  box-shadow: var(--shadow-sm); z-index: 998;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 30px; transition: var(--transition);
+}
+.top-nav.scrolled { box-shadow: var(--shadow); }
+.nav-brand {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 1.2rem; font-weight: 700; color: var(--primary); text-decoration: none;
+}
+.nav-brand svg { width: 28px; height: 28px; fill: var(--accent); }
+.nav-links { display: flex; gap: 30px; list-style: none; }
+.nav-links a {
+  text-decoration: none; color: var(--text-light); font-size: 0.95rem; font-weight: 500;
+  position: relative; transition: var(--transition);
+}
+.nav-links a::after {
+  content: ''; position: absolute; bottom: -4px; left: 0;
+  width: 0; height: 2px; background: var(--accent); transition: var(--transition);
+}
+.nav-links a:hover,.nav-links a.active { color: var(--accent); }
+.nav-links a:hover::after,.nav-links a.active::after { width: 100%; }
+
+.menu-toggle {
+  display: none; position: fixed; top: 16px; right: 20px; z-index: 1000;
+  cursor: pointer; width: 32px; height: 32px; flex-direction: column;
+  justify-content: center; align-items: center; gap: 5px;
+  background: rgba(255,255,255,0.9); border-radius: 6px;
+  padding: 4px; box-shadow: var(--shadow-sm);
+}
+.menu-toggle span { display: block; width: 20px; height: 2.5px; background: var(--primary); border-radius: 2px; transition: 0.3s; }
+.menu-toggle.active span:nth-child(1) { transform: rotate(45deg) translate(5px,5px); }
+.menu-toggle.active span:nth-child(2) { opacity: 0; }
+.menu-toggle.active span:nth-child(3) { transform: rotate(-45deg) translate(5px,-5px); }
+
+.menu {
+  position: fixed; top: 0; right: -320px; width: 320px; height: 100vh;
+  background: linear-gradient(135deg,#fff 0%,#f8fafc 100%);
+  box-shadow: -10px 0 30px rgba(0,0,0,0.1); transition: right 0.35s cubic-bezier(0.4,0,0.2,1);
+  z-index: 999; padding: 80px 30px 30px; overflow-y: auto;
+}
+.menu.active { right: 0; }
+.menu-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); opacity: 0; visibility: hidden; transition: 0.3s; z-index: 998; }
+.menu-overlay.active { opacity: 1; visibility: visible; }
+.menu ul { list-style: none; }
+.menu ul li { margin-bottom: 5px; }
+.menu ul li a {
+  display: block; text-decoration: none; color: var(--text); font-size: 1.1rem; font-weight: 500;
+  padding: 14px 18px; border-radius: var(--radius-sm); transition: var(--transition);
+}
+.menu ul li a:hover,.menu ul li a.active { background: var(--accent-light); color: var(--accent); }
+.menu-divider { height: 1px; background: linear-gradient(to right,transparent,#e0e0e0,transparent); margin: 15px 0; }
+.menu-section-title { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-muted); padding: 10px 18px; font-weight: 600; }
+.close-btn { position: absolute; top: 18px; right: 20px; background: none; border: none; font-size: 1.4rem; cursor: pointer; color: var(--text-muted); width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: var(--transition); }
+.close-btn:hover { background: var(--accent-light); color: var(--accent); }
+
+.content-container { max-width: 1200px; margin: 0 auto; padding: 90px 20px 40px; }
+
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 14px 32px; border-radius: 50px; text-decoration: none;
+  font-weight: 600; font-size: 1rem; transition: var(--transition); border: none; cursor: pointer;
+}
+.btn-primary { background: linear-gradient(135deg,var(--accent) 0%,var(--accent-hover) 100%); color: #fff; box-shadow: 0 4px 15px rgba(52,152,219,0.35); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(52,152,219,0.45); }
+.btn-outline { background: transparent; color: var(--accent); border: 2px solid var(--accent); }
+.btn-outline:hover { background: var(--accent); color: #fff; transform: translateY(-2px); }
+.btn-success { background: linear-gradient(135deg,var(--success) 0%,#219a52 100%); color: #fff; box-shadow: 0 4px 15px rgba(39,174,96,0.35); }
+.btn-success:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(39,174,96,0.45); }
+.btn-danger { background: linear-gradient(135deg,var(--danger) 0%,#c0392b 100%); color: #fff; box-shadow: 0 4px 15px rgba(231,76,60,0.35); }
+.btn-danger:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(231,76,60,0.45); }
+
+.section-header { text-align: center; margin-bottom: 50px; }
+.section-header h2 { font-size: 2.2rem; color: var(--primary); margin-bottom: 12px; }
+.section-header p { color: var(--text-muted); font-size: 1.05rem; max-width: 500px; margin: 0 auto; }
+
+.card-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(300px,1fr)); gap: 25px; }
+.card {
+  background: var(--card-bg); border-radius: var(--radius); padding: 30px;
+  box-shadow: var(--shadow-sm); transition: var(--transition); border: 1px solid rgba(0,0,0,0.04);
+  position: relative; overflow: hidden;
+}
+.card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); }
+.card-icon { width: 52px; height: 52px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 18px; }
+.card h3 { font-size: 1.2rem; margin-bottom: 10px; color: var(--primary); }
+.card p { color: var(--text-light); font-size: 0.95rem; line-height: 1.6; }
+
+footer { background: linear-gradient(135deg,#1a252f 0%,#2c3e50 100%); color: rgba(255,255,255,0.8); text-align: center; padding: 50px 20px 30px; margin-top: 60px; position: relative; }
+footer::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg,var(--accent),#5dade2,var(--success),#2ecc71); }
+.footer-content { max-width: 800px; margin: 0 auto; }
+.footer-links { display: flex; justify-content: center; flex-wrap: wrap; gap: 20px; margin-bottom: 25px; }
+.footer-links a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 0.9rem; transition: var(--transition); }
+.footer-links a:hover { color: var(--accent); }
+footer p { font-size: 0.9rem; color: rgba(255,255,255,0.5); }
+footer .footer-special { color: #9b59b6; text-decoration: none; font-weight: 600; transition: var(--transition); }
+footer .footer-special:hover { color: #bb6bd9; text-decoration: underline; }
+
+.back-to-top { position: fixed; bottom: 30px; right: 30px; width: 48px; height: 48px; background: linear-gradient(135deg,var(--accent) 0%,var(--accent-hover) 100%); color: #fff; border: none; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; box-shadow: 0 4px 15px rgba(52,152,219,0.4); opacity: 0; visibility: hidden; transition: var(--transition); z-index: 997; }
+.back-to-top.visible { opacity: 1; visibility: visible; }
+.back-to-top:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(52,152,219,0.5); }
+
+.official-resources { margin: 50px 0; padding: 40px; background: var(--card-bg); border-radius: var(--radius); box-shadow: var(--shadow-sm); border: 1px solid rgba(0,0,0,0.04); }
+.official-resources h3 { font-size: 1.4rem; margin-bottom: 25px; color: var(--primary); text-align: center; }
+.resources-list { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; }
+.resources-list a { display: inline-flex; align-items: center; gap: 6px; color: var(--accent); text-decoration: none; font-size: 0.95rem; padding: 8px 18px; border-radius: 50px; background: var(--accent-light); transition: var(--transition); font-weight: 500; }
+.resources-list a:hover { background: var(--accent); color: #fff; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(52,152,219,0.3); }
+
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+.animate-in { animation: fadeInUp 0.6s ease forwards; }
+
+@media (max-width: 768px) {
+  .top-nav { padding: 0 15px; }
+  .nav-links { display: none; }
+  .menu-toggle { display: flex; }
+  .content-container { padding: 80px 15px 30px; }
+  .section-header h2 { font-size: 1.8rem; }
+  .card-grid { grid-template-columns: 1fr; }
+  .card { padding: 25px 20px; }
+  .btn { width: 100%; max-width: 280px; justify-content: center; }
+}
+@media (max-width: 480px) {
+  .section-header h2 { font-size: 1.5rem; }
+}
+.page-header { text-align:center; padding:50px 20px 30px; }
+.page-header h1 { font-size:2.5rem; color:var(--primary); margin-bottom:12px; }
+.page-header p { color:var(--text-muted); font-size:1.1rem; }
+
+.announcement-list { max-width:800px; margin:0 auto; display:flex; flex-direction:column; gap:20px; }
+.announcement-item { background:var(--card-bg); border-radius:var(--radius); padding:30px; box-shadow:var(--shadow-sm); border:1px solid rgba(0,0,0,0.04); transition:var(--transition); }
+.announcement-item:hover { transform:translateY(-3px); box-shadow:var(--shadow); }
+.announcement-item.pinned { border-left:4px solid var(--danger); }
+.announcement-badge { display:inline-block; background:linear-gradient(135deg,#ffebee 0%,#ffcdd2 100%); color:var(--danger); padding:4px 12px; border-radius:50px; font-size:0.75rem; font-weight:700; margin-bottom:15px; }
+.announcement-content h3 { font-size:1.25rem; color:var(--primary); margin-bottom:10px; }
+.announcement-meta { display:flex; gap:15px; color:var(--text-muted); font-size:0.85rem; margin-bottom:12px; }
+.announcement-content p { color:var(--text-light); font-size:0.95rem; line-height:1.7; }
+
+@media(max-width:768px){ .page-header h1{font-size:2rem} }
+@media(max-width:480px){ .page-header h1{font-size:1.7rem} }  </style>
+</head>
+<body>
+  <nav class="top-nav" id="topNav">
+    <a href="index.html" class="nav-brand">
+      Termux交流社区
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html" class="">首页</a></li>
+      <li><a href="about.html" class="">关于我们</a></li>
+      <li><a href="downloads.html" class="">下载中心</a></li>
+      <li><a href="articles.html" class="">推荐文章</a></li>
+      <li><a href="announcement.html" class="active">公告</a></li>
+      <li><a href="contact.html" class="">联系我们</a></li>
+    </ul>
+  </nav>
+  <div class="menu-toggle" id="menuToggle"><span></span><span></span><span></span></div>
+  <div class="menu-overlay" id="menuOverlay"></div>
+  <div class="menu" id="menu">
+    <button class="close-btn" id="closeMenu">✕</button>
+    <ul>
+      <li><a href="index.html" class="">🏠 首页</a></li>
+      <li><a href="about.html" class="">📖 关于我们</a></li>
+      <li><a href="downloads.html" class="">⬇️ 下载中心</a></li>
+      <li><a href="articles.html" class="">📄 推荐文章</a></li>
+      <li><a href="announcement.html" class="active">📢 社区公告</a></li>
+      <li><a href="contact.html" class="">📧 联系我们</a></li>
+      <div class="menu-divider"></div>
+      <div class="menu-section-title">官方资源</div>
+      <li><a href="https://termux.com" target="_blank">🌐 Termux官网</a></li>
+      <li><a href="https://wiki.termux.com" target="_blank">📚 官方Wiki</a></li>
+      <li><a href="https://github.com/termux" target="_blank">💻 GitHub仓库</a></li>
+      <li><a href="https://termux.dev" target="_blank">🔧 开发者平台</a></li>
+    </ul>
+  </div>
+  <div class="content-container">
+    <div class="page-header">
+      <h1>📢 社区公告</h1>
+      <p>最新动态与活动通知</p>
+    </div>
+
+    <div class="announcement-list">
+      <div class="announcement-item pinned">
+        <div class="announcement-badge">📌 置顶</div>
+        <div class="announcement-content">
+          <h3>🔥 Termux 交流社区「避坑指南」征集活动启动</h3>
+          <div class="announcement-meta"><span>📅 2026年7月</span><span>🏷️ 活动</span></div>
+          <p>分享你在使用Termux过程中踩过的坑和解决方法，帮助更多新手少走弯路。优秀作品将获得社区专属奖励和荣誉展示。</p>
+          <a href="https://pd.qq.com/s/8ffej74a0?b=2" target="_blank" class="btn btn-primary" style="margin-top:15px;"><span>🔗</span> 查看详情</a>
+        </div>
+      </div>
+
+      <div class="announcement-item">
+        <div class="announcement-content">
+          <h3>🎉 Termux交流社区二群正式成立</h3>
+          <div class="announcement-meta"><span>📅 2026年5月</span><span>🏷️ 通知</span></div>
+          <p>QQ二群（1034443023）已正式成立，为新人提供更友好的交流环境。欢迎新成员加入！</p>
+        </div>
+      </div>
+
+      <div class="announcement-item">
+        <div class="announcement-content">
+          <h3>📺 社区宣传片发布</h3>
+          <div class="announcement-meta"><span>📅 2026年4月</span><span>🏷️ 动态</span></div>
+          <p>Termux交流社区宣传片已在哔哩哔哩发布，两分钟带你了解社区全貌。欢迎观看并分享给更多朋友。</p>
+        </div>
+      </div>
+
+      <div class="announcement-item">
+        <div class="announcement-content">
+          <h3>📝 社区文章征集计划启动</h3>
+          <div class="announcement-meta"><span>📅 2026年3月</span><span>🏷️ 活动</span></div>
+          <p>鼓励社区成员分享Termux使用经验、脚本教程、项目案例等原创内容。优秀文章将推荐至社区首页展示。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <button class="back-to-top" id="backToTop" title="回到顶部">↑</button>
+  <footer>
+    <div class="footer-content">
+      <div class="footer-links">
+        <a href="index.html">首页</a>
+        <a href="about.html">关于我们</a>
+        <a href="downloads.html">下载中心</a>
+        <a href="articles.html">推荐文章</a>
+        <a href="announcement.html">公告</a>
+        <a href="contact.html">联系我们</a>
+      </div>
+      <p>&copy; 2026 Termux交流社区. 保留所有权利.</p>
+    </div>
+  </footer>
+  <script>
+const menuToggle=document.getElementById('menuToggle'),menu=document.getElementById('menu'),closeMenuBtn=document.getElementById('closeMenu'),menuOverlay=document.getElementById('menuOverlay');
+function openMenu(){menu.classList.add('active');menuOverlay.classList.add('active');menuToggle.classList.add('active');document.body.style.overflow='hidden';}
+function closeMenuFn(){menu.classList.remove('active');menuOverlay.classList.remove('active');menuToggle.classList.remove('active');document.body.style.overflow='';}
+if(menuToggle)menuToggle.addEventListener('click',()=>{menu.classList.contains('active')?closeMenuFn():openMenu();});
+if(closeMenuBtn)closeMenuBtn.addEventListener('click',closeMenuFn);
+if(menuOverlay)menuOverlay.addEventListener('click',closeMenuFn);
+const topNav=document.getElementById('topNav');
+if(topNav)window.addEventListener('scroll',()=>{window.scrollY>50?topNav.classList.add('scrolled'):topNav.classList.remove('scrolled');});
+document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',function(e){const t=this.getAttribute('href');if(t==='#')return;const el=document.querySelector(t);if(el){e.preventDefault();const h=topNav?topNav.offsetHeight:60;window.scrollTo({top:el.offsetTop-h-20,behavior:'smooth'});closeMenuFn();}});});
+const btt=document.getElementById('backToTop');
+if(btt){window.addEventListener('scroll',()=>{window.scrollY>400?btt.classList.add('visible'):btt.classList.remove('visible');});btt.addEventListener('click',()=>{window.scrollTo({top:0,behavior:'smooth'});});}
+const obs=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('animate-in');obs.unobserve(e.target);}});},{threshold:0.1,rootMargin:'0px 0px -50px 0px'});
+document.querySelectorAll('.card,.feature-card,.article-card,.link-card,.download-card,.announcement-card,.announcement-item,.article-card-large,.faq-item,.stat-card,.timeline-item,.guide-card').forEach(el=>{el.style.opacity='0';obs.observe(el);});
+  </script>
+</body>
+</html>
