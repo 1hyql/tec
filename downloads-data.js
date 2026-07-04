@@ -103,11 +103,17 @@ const downloadsData = {
   ],
 // ========更多资源========
   resources: [
-//    {
-//      title:,
-//      desc:,
-//      icon:,
-//      url:
-//    }
+    {
+      title: "Termux",
+      desc: "Android 上的 Linux 环境模拟器，无需 root 即可运行完整的命令行工具和包管理器。",
+      icon: "📱",
+      url: "https://github.com/termux/termux-app"
+    },
+    {
+      title: "F-Droid",
+      desc: "Android 上的自由开源应用商店，提供可信赖的 FOSS 应用下载与自动更新。",
+      icon: "🔒",
+      url: "https://f-droid.org/"
+    }
   ]
 };
