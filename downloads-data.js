@@ -47,6 +47,12 @@ const downloadsData = {
 // ========项目========
   projects: [
     {
+      title: "Oh My Termux",
+      desc: "Termux 一键配置脚本，集成 Zsh、Neovim、Git、Zellij 等开发工具，开箱即用，让移动端编码体验接近桌面。",
+      icon: "🚀",
+      url: "https://github.com/air-plus/oh-my-termux",
+    },
+    {
       title: "PRoot-Distro 发行版管理",
       desc: "无需 Root 在 Termux 中运行 Ubuntu、Debian、Alpine 等 Linux 发行版。",
       icon: "🐧",
