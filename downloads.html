@@ -135,8 +135,6 @@ footer .footer-special:hover { color: #bb6bd9; text-decoration: underline; }
 .back-to-top.visible { opacity: 1; visibility: visible; }
 .back-to-top:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(52,152,219,0.5); }
 
-@keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-.animate-in { animation: fadeInUp 0.6s ease forwards; }
 
 @media (max-width: 768px) {
   .top-nav { padding: 0 15px; }
@@ -317,6 +315,10 @@ function renderDownloads() {
   }
 }
 
+function isGitHubUrl(url) {
+  return /^https?:\/\/(?:www\.)?github\.com\//i.test(url);
+}
+
 function renderCard(item, type) {
   const typeMap = {
     script: { btnClass: 'green', cardClass: 'script-card' },
@@ -324,12 +326,14 @@ function renderCard(item, type) {
     resource: { btnClass: 'orange', cardClass: 'resource-card' }
   };
   const { btnClass, cardClass } = typeMap[type] || typeMap.resource;
-  
+  const href = isGitHubUrl(item.url) ? 'github-redirect.html?target=' + encodeURIComponent(item.url) : item.url;
+  const rel = isGitHubUrl(item.url) ? 'noopener noreferrer' : 'noopener';
+
   return `<div class="download-card ${cardClass}">
     <div class="download-icon" style="background:${ICON_BG}">${item.icon}</div>
     <h3>${item.title}</h3>
     <p>${item.desc}</p>
-    <a href="${item.url}" class="download-btn ${btnClass}" target="_blank"><span>📥</span> 前往仓库下载</a>
+    <a href="${href}" class="download-btn ${btnClass}" target="_blank" rel="${rel}"><span>📥</span> 前往仓库下载</a>
   </div>`;
 }
 

@@ -201,96 +201,75 @@ footer p { font-size: 0.9rem; color: rgba(255,255,255,0.5); }
   <script src="downloads-data.js"></script>
   <script>
 const ICON_BG = 'linear-gradient(135deg, #f0f2f5 0%, #d5dbe3 100%)';
+function normalizeText(text) {
+  return (text || '').toString().toLowerCase().replace(/[\p{P}\p{S}_]+/gu, ' ').replace(/\s+/g, ' ').trim();
+}
+
+function splitTokens(text) {
+  return normalizeText(text).split(' ').filter(Boolean);
+}
+
+function isGitHubUrl(url) {
+  return /^https?:\/\/(?:www\.)?github\.com\//i.test(url);
+}
 
 function getQueryParam(name) {
   var params = new URLSearchParams(window.location.search);
   return params.get(name) || '';
 }
 
+function updateUrlQuery(q) {
+  var url = 'search.html?q=' + encodeURIComponent(q);
+  if (window.location.search !== '?q=' + encodeURIComponent(q)) {
+    history.replaceState(null, '', url);
+  }
+}
+
 function doSearch() {
   var q = document.getElementById('searchInput').value.trim();
-  if (q) {
-    var url = 'search.html?q=' + encodeURIComponent(q);
-    history.replaceState(null, '', url);
-    renderResults(q);
+  if (!q) {
+    renderResults('');
+    updateUrlQuery('');
+    return;
   }
+  updateUrlQuery(q);
+  renderResults(q);
 }
 
 document.getElementById('searchInput').addEventListener('keypress', function(e) {
   if (e.key === 'Enter') doSearch();
 });
 
-function levenshtein(a, b) {
-  if (a.length === 0) return b.length;
-  if (b.length === 0) return a.length;
-  var matrix = [];
-  for (var i = 0; i <= b.length; i++) matrix[i] = [i];
-  for (var j = 0; j <= a.length; j++) matrix[0][j] = j;
-  for (var i = 1; i <= b.length; i++) {
-    for (var j = 1; j <= a.length; j++) {
-      if (b[i - 1] === a[j - 1]) {
-        matrix[i][j] = matrix[i - 1][j - 1];
-      } else {
-        matrix[i][j] = Math.min(
-          matrix[i - 1][j - 1] + 1,
-          matrix[i][j - 1] + 1,
-          matrix[i - 1][j] + 1
-        );
-      }
-    }
-  }
-  return matrix[b.length][a.length];
-}
-
 function calcScore(item, query) {
   var total = 0;
-  var title = (item.title || '').toLowerCase();
-  var desc = (item.desc || '').toLowerCase();
-  var q = query.toLowerCase();
+  var normalizedQuery = normalizeText(query);
+  var title = normalizeText(item.title);
+  var desc = normalizeText(item.desc);
+  var category = normalizeText(item.category || '');
+  var url = normalizeText(item.url || '');
+  var tokens = splitTokens(normalizedQuery);
 
-  if (title.indexOf(q) !== -1) total += 100;
-  if (desc.indexOf(q) !== -1) total += 30;
+  if (!normalizedQuery) return 0;
+  if (title === normalizedQuery) total += 220;
+  if (title.indexOf(normalizedQuery) !== -1) total += 120;
+  if (desc.indexOf(normalizedQuery) !== -1) total += 40;
+  if (category.indexOf(normalizedQuery) !== -1) total += 25;
 
-  var keywords = ['termux','python','linux','kali','ubuntu','debian','arch','alpine','node','go','rust','tmux','vim','neovim','git','api','tool','setup','script','bot','web','server','backup','restore','install','config'];
-  for (var k = 0; k < keywords.length; k++) {
-    var kw = keywords[k];
-    if (q.indexOf(kw) !== -1 && title.indexOf(kw) !== -1) { total += 50; break; }
-    if (kw.indexOf(q) !== -1 && title.indexOf(kw) !== -1) { total += 40; break; }
-  }
+  tokens.forEach(function(token) {
+    if (title.indexOf(token) !== -1) total += 55;
+    if (title.startsWith(token)) total += 25;
+    if (desc.indexOf(token) !== -1) total += 18;
+    if (category.indexOf(token) !== -1) total += 12;
+    if (url.indexOf(token) !== -1) total += 8;
+  });
 
-  var distTitle = levenshtein(title, q);
-  if (distTitle <= 6) {
-    if (distTitle === 0) total += 50;
-    else if (distTitle === 1) total += 30;
-    else if (distTitle === 2) total += 18;
-    else if (distTitle === 3) total += 10;
-    else if (distTitle === 4) total += 6;
-    else if (distTitle === 5) total += 3;
-    else if (distTitle === 6) total += 1;
+  var overlap = 0;
+  normalizedQuery.split('').forEach(function(ch) {
+    if (ch && title.indexOf(ch) !== -1) overlap += 1;
+  });
+  if (normalizedQuery.length > 0) {
+    total += Math.min(35, Math.round((overlap / normalizedQuery.length) * 35));
   }
-
-  var chars = q.split('');
-  var matched = 0;
-  for (var i = 0; i < chars.length; i++) {
-    if (title.indexOf(chars[i]) !== -1) matched++;
-  }
-  if (chars.length > 0) {
-    var rate = matched / chars.length;
-    if (rate >= 0.3) total += 25 * rate;
-  }
-
-  if (q.length >= 3) {
-    for (var i = 0; i <= q.length - 3; i++) {
-      var sub = q.substring(i, i + 3);
-      if (title.indexOf(sub) !== -1) { total += 10; break; }
-    }
-  }
-
-  var hasCommon = false;
-  for (var i = 0; i < chars.length; i++) {
-    if (title.indexOf(chars[i]) !== -1) { hasCommon = true; break; }
-  }
-  if (hasCommon) total += 3;
 
   return total;
 }
@@ -300,7 +279,7 @@ function renderResults(query) {
   var info = document.getElementById('resultsInfo');
 
   if (!query) {
-    container.innerHTML = '';
+    container.innerHTML = '<div class="no-results" style="grid-column:1/-1;"><h3>请输入关键词开始搜索</h3><p>你可以搜索项目名称、脚本功能、Termux 工具等。</p></div>';
     info.textContent = '';
     return;
   }
@@ -311,55 +290,27 @@ function renderResults(query) {
   }
 
   var all = [];
-
   if (downloadsData.scripts) {
-    for (var i = 0; i < downloadsData.scripts.length; i++) {
-      var item = downloadsData.scripts[i];
-      all.push({
-        title: item.title,
-        desc: item.desc,
-        icon: item.icon,
-        url: item.url,
-        category: '脚本工具'
-      });
-    }
+    downloadsData.scripts.forEach(function(item) {
+      all.push({ title: item.title, desc: item.desc, icon: item.icon, url: item.url, category: '脚本工具' });
+    });
   }
-
   if (downloadsData.projects) {
-    for (var i = 0; i < downloadsData.projects.length; i++) {
-      var item = downloadsData.projects[i];
-      all.push({
-        title: item.title,
-        desc: item.desc,
-        icon: item.icon,
-        url: item.url,
-        category: '项目'
-      });
-    }
+    downloadsData.projects.forEach(function(item) {
+      all.push({ title: item.title, desc: item.desc, icon: item.icon, url: item.url, category: '项目' });
+    });
   }
-
   if (downloadsData.resources) {
-    for (var i = 0; i < downloadsData.resources.length; i++) {
-      var item = downloadsData.resources[i];
-      all.push({
-        title: item.title,
-        desc: item.desc,
-        icon: item.icon,
-        url: item.url,
-        category: '更多资源'
-      });
-    }
+    downloadsData.resources.forEach(function(item) {
+      all.push({ title: item.title, desc: item.desc, icon: item.icon, url: item.url, category: '更多资源' });
+    });
   }
 
-  var results = [];
-  for (var i = 0; i < all.length; i++) {
-    var item = all[i];
-    var score = calcScore(item, query);
-    if (score > 0) {
-      item.score = Math.round(score);
-      results.push(item);
-    }
-  }
+  var results = all.map(function(item) {
+    return Object.assign({ score: calcScore(item, query) }, item);
+  }).filter(function(item) {
+    return item.score > 0;
+  });
 
   results.sort(function(a, b) {
     return b.score - a.score;
@@ -372,41 +323,46 @@ function renderResults(query) {
     return;
   }
 
-  var html = '';
-  for (var i = 0; i < results.length; i++) {
-    var item = results[i];
-    html += '<div class="result-card">';
-    html += '<div class="result-icon" style="background:' + ICON_BG + '">' + item.icon + '</div>';
-    html += '<span class="category">' + item.category + '</span>';
-    html += '<h3>' + item.title + '</h3>';
-    html += '<p>' + item.desc + '</p>';
-    html += '<a href="' + item.url + '" target="_blank"><span>📥</span> 前往仓库下载</a>';
-    html += '</div>';
-  }
+  var html = results.map(function(item) {
+    var linkHref = './github-redirect.html?target=' + encodeURIComponent(item.url);
+    var linkRel = 'noopener noreferrer';
+    return '<div class="result-card">'
+      + '<div class="result-icon" style="background:' + ICON_BG + '">' + item.icon + '</div>'
+      + '<span class="category">' + item.category + '</span>'
+      + '<h3>' + item.title + '</h3>'
+      + '<p>' + item.desc + '</p>'
+      + '<a href="' + linkHref + '" target="_blank" rel="' + linkRel + '"><span>📥</span> 前往仓库下载</a>'
+      + '</div>';
+  }).join('');
 
   container.innerHTML = html;
 
   var obs = new IntersectionObserver(function(entries) {
-    for (var i = 0; i < entries.length; i++) {
-      if (entries[i].isIntersecting) {
-        entries[i].target.classList.add('animate-in');
-        obs.unobserve(entries[i].target);
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('animate-in');
+        obs.unobserve(entry.target);
       }
-    }
+    });
   }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
 
-  var cards = document.querySelectorAll('.result-card');
-  for (var i = 0; i < cards.length; i++) {
-    cards[i].style.opacity = '0';
-    obs.observe(cards[i]);
+  document.querySelectorAll('.result-card').forEach(function(card) {
+    card.style.opacity = '0';
+    obs.observe(card);
+  });
+}
+
+function initSearchPage() {
+  var initQuery = getQueryParam('q');
+  if (initQuery) {
+    document.getElementById('searchInput').value = initQuery;
+    renderResults(initQuery);
+  } else {
+    renderResults('');
   }
 }
 
-var initQuery = getQueryParam('q');
-if (initQuery) {
-  document.getElementById('searchInput').value = initQuery;
-  renderResults(initQuery);
-}
+initSearchPage();
 
 const menuToggle = document.getElementById('menuToggle');
 const menu = document.getElementById('menu');

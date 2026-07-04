@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GitHub 跳转中转页 - Termux交流社区</title>
+  <style>
+    :root {
+      --bg: #f5f7fb;
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #4b5563;
+      --accent: #2563eb;
+      --success: #16a34a;
+      --danger: #dc2626;
+      --border: rgba(15, 23, 42, 0.08);
+      --radius: 18px;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { min-height: 100vh; background: var(--bg); color: var(--text); font-family: 'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif; display: flex; align-items: center; justify-content: center; padding: 20px; }
+    .card { width: min(560px, 100%); background: var(--card); border-radius: var(--radius); box-shadow: 0 24px 80px rgba(15,23,42,0.12); border: 1px solid var(--border); padding: 34px; }
+    .card h1 { font-size: 1.8rem; margin-bottom: 18px; }
+    .card p { color: var(--muted); line-height: 1.75; margin-bottom: 22px; }
+    .status { display: inline-flex; align-items: center; gap: 10px; font-weight: 700; margin-bottom: 18px; }
+    .status span { display: inline-flex; width: 10px; height: 10px; border-radius: 50%; }
+    .status.waiting span { background: #f59e0b; }
+    .status.success span { background: var(--success); }
+    .status.error span { background: var(--danger); }
+    .target-box { background: #f8fafc; border: 1px solid rgba(37,99,235,0.12); border-radius: 12px; padding: 16px; word-break: break-all; margin-bottom: 20px; }
+    .actions { display: flex; flex-wrap: wrap; gap: 12px; }
+    .actions a, .actions button { border: none; border-radius: 999px; padding: 12px 20px; cursor: pointer; font-weight: 700; transition: transform 0.2s ease, filter 0.2s ease; text-decoration: none; }
+    .actions a:hover, .actions button:hover { transform: translateY(-2px); }
+    .btn-return { background: #f3f4f6; color: var(--text); }
+    .btn-retry { background: var(--accent); color: #fff; }
+    .btn-github { background: var(--success); color: #fff; }
+    .hint { color: var(--muted); font-size: 0.95rem; margin-top: 14px; }
+    .hidden { display: none; }
+    @media (max-width: 520px) { .card { padding: 24px; } .actions { flex-direction: column; } }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="status waiting" id="statusLabel"><span></span><div>正在检查 GitHub 可访问性...</div></div>
+    <h1 id="mainTitle">正在跳转到 GitHub 仓库</h1>
+    <p id="message">请稍候，我们正在确认 GitHub 是否可以访问。如果网络受限，请切换网络或使用代理后重试。</p>
+    <div class="target-box" id="targetBox"></div>
+    <div class="actions">
+      <button class="btn-retry hidden" id="retryBtn">重试</button>
+      <a href="downloads.html" class="btn-return">返回下载中心</a>
+      <a href="#" class="btn-github hidden" id="openDirectBtn" target="_blank">打开 GitHub</a>
+    </div>
+    <p class="hint">如果检测长时间未完成，请检查设备网络，或尝试直接访问 GitHub。</p>
+  </div>
+  <script>
+    function getQueryParam(name) {
+      var params = new URLSearchParams(window.location.search);
+      return params.get(name) || '';
+    }
+
+    function setStatus(type, title, message) {
+      var statusLabel = document.getElementById('statusLabel');
+      statusLabel.className = 'status ' + type;
+      statusLabel.querySelector('div').textContent = title;
+      document.getElementById('mainTitle').textContent = title;
+      document.getElementById('message').textContent = message;
+    }
+
+    function showElement(id) { document.getElementById(id).classList.remove('hidden'); }
+    function hideElement(id) { document.getElementById(id).classList.add('hidden'); }
+
+    function isGitHubUrl(url) {
+      return /^https?:\/\/(?:www\.)?github\.com\//i.test(url);
+    }
+
+    function checkGitHubAccessible(timeoutMs) {
+      return new Promise(function(resolve, reject) {
+        var done = false;
+        var timer = setTimeout(function() {
+          if (!done) {
+            done = true;
+            reject(new Error('timeout'));
+          }
+        }, timeoutMs || 7000);
+
+        function succeed() {
+          if (done) return;
+          done = true;
+          clearTimeout(timer);
+          resolve(true);
+        }
+
+        function fail() {
+          if (done) return;
+          done = true;
+          clearTimeout(timer);
+          reject(new Error('unreachable'));
+        }
+
+        var img = new Image();
+        img.onload = succeed;
+        img.onerror = function() {
+          if (done) return;
+          setTimeout(function() {
+            if (!done) fail();
+          }, 500);
+        };
+        img.src = 'https://github.githubassets.com/favicons/favicon.ico?cache=' + Date.now();
+
+        fetch('https://github.com/favicon.ico', { mode: 'no-cors', cache: 'no-store' })
+          .then(function() {
+            succeed();
+          })
+          .catch(function() {
+            // ignore; rely on image or timeout to decide
+          });
+      });
+    }
+
+    var target = getQueryParam('target');
+    var decodedTarget = '';
+    try { decodedTarget = decodeURIComponent(target); } catch (e) { decodedTarget = target; }
+    document.getElementById('targetBox').textContent = decodedTarget || '未提供目标链接';
+
+    var retryBtn = document.getElementById('retryBtn');
+    var openDirectBtn = document.getElementById('openDirectBtn');
+    if (decodedTarget) {
+      openDirectBtn.href = decodedTarget;
+    }
+
+    function startCheck() {
+      if (!decodedTarget) {
+        setStatus('error', '目标链接错误', '未检测到有效目标链接，请返回下载中心重新操作。');
+        showElement('retryBtn');
+        return;
+      }
+
+      var isGitHubLink = isGitHubUrl(decodedTarget);
+      if (!isGitHubLink) {
+        setStatus('success', '正在跳转到目标链接', '该链接不是 GitHub 仓库，正在直接打开页面。');
+        showElement('openDirectBtn');
+        setTimeout(function() {
+          window.location.href = decodedTarget;
+        }, 600);
+        return;
+      }
+
+      setStatus('waiting', '正在检查 GitHub 可访问性...', '请稍候，正在确认 GitHub 是否可访问。');
+      hideElement('retryBtn');
+      hideElement('openDirectBtn');
+
+      checkGitHubAccessible(7000).then(function() {
+        setStatus('success', 'GitHub 可访问', '检测通过，正在为你跳转到仓库页面。');
+        showElement('openDirectBtn');
+        setTimeout(function() {
+          window.location.href = decodedTarget;
+        }, 800);
+      }).catch(function() {
+        setStatus('error', 'GitHub 检测失败', '当前检测方式未确认可访问 GitHub，但你仍可尝试直接打开仓库链接或切换网络后重试。');
+        showElement('retryBtn');
+        showElement('openDirectBtn');
+      });
+    }
+
+    retryBtn.addEventListener('click', startCheck);
+    startCheck();
+  </script>
+</body>
+</html>
