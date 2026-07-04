@@ -186,6 +186,8 @@ footer .footer-special:hover { color: #bb6bd9; text-decoration: underline; }
 .step-num { width:36px; height:36px; min-width:36px; background:linear-gradient(135deg,var(--accent) 0%,var(--accent-hover) 100%); color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:0.9rem; }
 .guide-step p { color:var(--text-light); font-size:0.95rem; line-height:1.7; padding-top:6px; }
 .guide-step code { background:#f4f4f4; padding:2px 8px; border-radius:4px; font-family:'Courier New',monospace; font-size:0.85rem; color:var(--danger); }
+.animate-in { animation: fadeInUp 0.6s ease forwards; }
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
 @media(max-width:768px){ .page-header h1{font-size:2rem} .guide-card{padding:25px 20px} .dl-search-wrap{padding:0 15px;margin-bottom:25px;} .dl-search-box input{padding:12px 14px;font-size:0.9rem;} .dl-search-box button{padding:12px 20px;font-size:0.85rem;} }
 @media(max-width:480px){ .page-header h1{font-size:1.7rem} }
@@ -312,6 +314,8 @@ function renderDownloads() {
       rg.innerHTML = downloadsData.resources.map(item => renderCard(item, 'resource')).join('');
     }
   }
+
+  setupAnimations();
 }
 
 function isGitHubUrl(url) {
@@ -399,10 +403,12 @@ const obs = new IntersectionObserver((es) => {
   });
 }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
 
-document.querySelectorAll('.download-card, .guide-card').forEach(el => {
-  el.style.opacity = '0';
-  obs.observe(el);
-});
+function setupAnimations() {
+  document.querySelectorAll('.download-card, .guide-card').forEach(el => {
+    el.style.opacity = '0';
+    obs.observe(el);
+  });
+}
   </script>
 </body>
 </html>
