@@ -16,7 +16,8 @@
 <meta property="og:image" content="https://tc.z.wiki/autoupload/f/GENHffITdBvXEWFzr34st3WHG78jThlq6-h0TTlulE-yl5f0KlZfm6UsKj-HyTuv/20250716/AUd6/1131X1131/IMG_20250716_095822.jpg" />
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
-:root { --primary: #2c3e50; --accent: #3498db; --accent-hover: #2980b9; --accent-light: #e3f2fd; --danger: #e74c3c; --success: #27ae60; --warning: #f39c12; --bg: #f0f2f5; --card-bg: #ffffff; --text: #333333; --text-light: #666666; --text-muted: #888888; --shadow-sm: 0 2px 8px rgba(0,0,0,0.06); --shadow: 0 8px 24px rgba(0,0,0,0.08); --shadow-lg: 0 16px 40px rgba(0,0,0,0.12); --radius: 12px; --radius-sm: 8px; --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+:root { --primary: #2c3e50; --accent: #3498db; --accent-hover: #2980b9; --accent-light: #e3f2fd; --danger: #e74c3c; --success: #27ae60; --warning: #f39c12; --bg: #f0f2f5; --card-bg: #ffffff; --text: #333333; --text-light: #666666; --text-muted: #888888; --shadow-sm: 0 2px 8px rgba(0,0,0,0.06); --shadow: 0 8px 24px rgba(0,0,0,0.08); --shadow-lg: 0 16px 40px rgba(0,0,0,0.12); --radius: 12px; --radius-sm: 8px; --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); }
+[data-theme="dark"] { --primary: #ecf0f1; --accent: #5dade2; --accent-hover: #3498db; --accent-light: rgba(52,152,219,0.15); --bg: #0f172a; --card-bg: #1e293b; --text: #f1f5f9; --text-light: #94a3b8; --text-muted: #64748b; --shadow-sm: 0 2px 8px rgba(0,0,0,0.3); --shadow: 0 8px 24px rgba(0,0,0,0.4); --shadow-lg: 0 16px 40px rgba(0,0,0,0.5); }
 html { scroll-behavior: smooth; }
 body { background: var(--bg); color: var(--text); line-height: 1.7; font-family: 'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif; overflow-x: hidden; }
 .top-nav { position: fixed; top: 0; left: 0; right: 0; height: 60px; background: rgba(255,255,255,0.92); backdrop-filter: blur(12px); box-shadow: var(--shadow-sm); z-index: 998; display: flex; align-items: center; justify-content: space-between; padding: 0 30px; transition: var(--transition); }
@@ -45,6 +46,13 @@ body { background: var(--bg); color: var(--text); line-height: 1.7; font-family:
 .menu-section-title { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-muted); padding: 10px 18px; font-weight: 600; }
 .close-btn { position: absolute; top: 18px; right: 20px; background: none; border: none; font-size: 1.4rem; cursor: pointer; color: var(--text-muted); width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: var(--transition); }
 .close-btn:hover { background: var(--accent-light); color: var(--accent); }
+.theme-toggle { width: 40px; height: 40px; border-radius: 50%; border: none; cursor: pointer; background: var(--accent-light); color: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; transition: var(--transition); }
+.theme-toggle:hover { background: var(--accent); color: #fff; transform: rotate(180deg); box-shadow: 0 4px 12px rgba(52,152,219,0.3); }
+[data-theme="dark"] .top-nav { background: rgba(15,23,42,0.92); }
+[data-theme="dark"] .menu-toggle { background: rgba(30,41,59,0.9); }
+[data-theme="dark"] .menu { background: linear-gradient(135deg,#1e293b 0%,#0f172a 100%); box-shadow: -10px 0 30px rgba(0,0,0,0.5); }
+[data-theme="dark"] .menu-divider { background: linear-gradient(to right,transparent,#334155,transparent); }
+[data-theme="dark"] footer { background: linear-gradient(135deg,#0f172a 0%,#1e293b 100%); }
 .content-container { max-width: 1200px; margin: 0 auto; padding: 90px 20px 40px; }
 .btn { display: inline-flex; align-items: center; gap: 8px; padding: 14px 32px; border-radius: 50px; text-decoration: none; font-weight: 600; font-size: 1rem; transition: var(--transition); border: none; cursor: pointer; }
 .btn-primary { background: linear-gradient(135deg,var(--accent) 0%,var(--accent-hover) 100%); color: #fff; box-shadow: 0 4px 15px rgba(52,152,219,0.35); }
@@ -112,6 +120,7 @@ Termux交流社区
 <li><a href="about.html" class="active">关于我们</a></li>
 <li><a href="contact.html">联系我们</a></li>
 </ul>
+<button class="theme-toggle" id="themeToggle" title="切换主题">🌙</button>
 </nav>
 <div class="menu-toggle" id="menuToggle"><span></span><span></span><span></span></div>
 <div class="menu-overlay" id="menuOverlay"></div>
