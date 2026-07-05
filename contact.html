@@ -280,10 +280,12 @@ footer .footer-special:hover { color: #bb6bd9; text-decoration: underline; }
           <a href="https://blog.csdn.net/2403_88248420" target="_blank"><span>📖</span> 访问博客</a>
         </div>
         <div class="link-card">
-          <div class="link-icon">📱</div>
-          <h3>微信公众号</h3>
-          <p>每周推送Termux干货、社区动态</p>
-          <p style="color:var(--accent);margin-top:12px;font-size:0.9rem;font-weight:600;">（扫码关注：Termux交流）</p>
+          <div class="link-icon">📧</div>
+          <h3>邮箱联系</h3>
+          <p>有任何问题或建议，欢迎邮件联系</p>
+          <p style="margin-top:12px;font-size:0.9rem;font-weight:600;">
+            <a id="emailLink" style="text-decoration:none;">加载中...</a>
+          </p>
         </div>
       </div>
     </div>
@@ -323,6 +325,14 @@ footer .footer-special:hover { color: #bb6bd9; text-decoration: underline; }
     </div>
   </footer>
   <script>
+(function() {
+              var user = "2482372046";
+              var domain = "qq.com";
+              var full = user + "@" + domain;
+              var link = document.getElementById("emailLink");
+              link.href = "mailto:" + full;
+              link.textContent = full;
+            })();
 const menuToggle=document.getElementById('menuToggle'),menu=document.getElementById('menu'),closeMenuBtn=document.getElementById('closeMenu'),menuOverlay=document.getElementById('menuOverlay');
 function openMenu(){menu.classList.add('active');menuOverlay.classList.add('active');menuToggle.classList.add('active');document.body.style.overflow='hidden';}
 function closeMenuFn(){menu.classList.remove('active');menuOverlay.classList.remove('active');menuToggle.classList.remove('active');document.body.style.overflow='';}
