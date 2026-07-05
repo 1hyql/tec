@@ -27,8 +27,23 @@
   --shadow-lg: 0 16px 40px rgba(0,0,0,0.12);
   --radius: 12px;
   --radius-sm: 8px;
-  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
   --icon-bg: linear-gradient(135deg, #f0f2f5 0%, #d5dbe3 100%);
+}
+[data-theme="dark"] {
+  --primary: #ecf0f1;
+  --accent: #5dade2;
+  --accent-hover: #3498db;
+  --accent-light: rgba(52,152,219,0.15);
+  --bg: #0f172a;
+  --card-bg: #1e293b;
+  --text: #f1f5f9;
+  --text-light: #94a3b8;
+  --text-muted: #64748b;
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
+  --shadow: 0 8px 24px rgba(0,0,0,0.4);
+  --shadow-lg: 0 16px 40px rgba(0,0,0,0.5);
+  --icon-bg: linear-gradient(135deg, #1e293b 0%, #334155 100%);
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html { scroll-behavior: smooth; }
@@ -93,6 +108,13 @@ body {
 .menu-section-title { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-muted); padding: 10px 18px; font-weight: 600; }
 .close-btn { position: absolute; top: 18px; right: 20px; background: none; border: none; font-size: 1.4rem; cursor: pointer; color: var(--text-muted); width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: var(--transition); }
 .close-btn:hover { background: var(--accent-light); color: var(--accent); }
+.theme-toggle { width: 40px; height: 40px; border-radius: 50%; border: none; cursor: pointer; background: var(--accent-light); color: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; transition: var(--transition); }
+.theme-toggle:hover { background: var(--accent); color: #fff; transform: rotate(180deg); box-shadow: 0 4px 12px rgba(52,152,219,0.3); }
+[data-theme="dark"] .top-nav { background: rgba(15,23,42,0.92); }
+[data-theme="dark"] .menu-toggle { background: rgba(30,41,59,0.9); }
+[data-theme="dark"] .menu { background: linear-gradient(135deg,#1e293b 0%,#0f172a 100%); box-shadow: -10px 0 30px rgba(0,0,0,0.5); }
+[data-theme="dark"] .menu-divider { background: linear-gradient(to right,transparent,#334155,transparent); }
+[data-theme="dark"] footer { background: linear-gradient(135deg,#0f172a 0%,#1e293b 100%); }
 .content-container { max-width: 1200px; margin: 0 auto; padding: 90px 20px 40px; }
 footer { background: linear-gradient(135deg,#1a252f 0%,#2c3e50 100%); color: rgba(255,255,255,0.8); text-align: center; padding: 50px 20px 30px; margin-top: 60px; position: relative; }
 footer::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg,var(--accent),#5dade2,var(--success),#2ecc71); }
@@ -150,6 +172,7 @@ footer p { font-size: 0.9rem; color: rgba(255,255,255,0.5); }
       <li><a href="about.html">关于我们</a></li>
       <li><a href="contact.html">联系我们</a></li>
     </ul>
+    <button class="theme-toggle" id="themeToggle" title="切换主题">🌙</button>
   </nav>
   <div class="menu-toggle" id="menuToggle"><span></span><span></span><span></span></div>
   <div class="menu-overlay" id="menuOverlay"></div>
@@ -198,6 +221,7 @@ footer p { font-size: 0.9rem; color: rgba(255,255,255,0.5); }
       <p>&copy; 2026 Termux交流社区. 保留所有权利.</p>
     </div>
   </footer>
+  <script src="common.js"></script>
   <script src="downloads-data.js"></script>
   <script>
 const ICON_BG = 'linear-gradient(135deg, #f0f2f5 0%, #d5dbe3 100%)';
