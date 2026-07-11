@@ -59,7 +59,7 @@
 
    ```bash
    git add downloads-data.js
-   git commit -m "添加项目：你的项目名称（类型：脚本工具/项目模板/更多资源）"
+   git commit -m "添加项目：你的项目名称（类型：脚本工具/项目/更多资源）"
    git push origin add-project-你的项目名
    ```
 
