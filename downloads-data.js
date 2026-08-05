@@ -42,6 +42,12 @@ const downloadsData = {
       desc: "清理 Android ELF 文件中无用的动态段，减小包体积，提升加载速度。",
       icon: "🧹",
       url: "https://github.com/termux/termux-elf-cleaner"
+    },
+    {
+      title: "Termux-",
+      desc: "Termux 终端美化，提供报错翻译",
+      icon: "🪟",
+      url: "https://github.com/110we/Termux-"
     }
   ],
 // ========项目========
