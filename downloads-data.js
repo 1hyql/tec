@@ -48,6 +48,12 @@ const downloadsData = {
       desc: "Termux 终端美化，提供报错翻译",
       icon: "🪟",
       url: "https://github.com/110we/Termux-"
+    },
+    {
+      title: "Termux 组合技 - 文件管理神器",
+      desc: "一键整理、压缩、查文件、编译、加密，Termux 全能文件管理工具",
+      icon: "🛠️",
+      url: "https://github.com/sky-zzh-11-25/Termux-tool"
     }
   ],
 // ========项目========
