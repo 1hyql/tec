@@ -2,38 +2,38 @@ const downloadsData = {
 // ========脚本工具========
   scripts: [
     {
-      title: "Termux 官方工具包",
-      desc: "Termux 官方维护的核心脚本集，包含镜像源管理、环境配置等基础工具。",
+      title: "termux-tools",
+      desc: "Termux 官方维护的核心工具包，包含 pkg 包管理器、termux-change-repo 镜像源切换、termux-setup-storage 存储权限申请等基础脚本与程序。",
       icon: "📦",
       url: "https://github.com/termux/termux-tools"
     },
     {
-      title: "Termux API 脚本包",
-      desc: "调用 Termux:API 功能的脚本集合，支持访问 Android 硬件和系统功能。",
+      title: "termux-api-package",
+      desc: "封装调用 Termux:API 应用功能的脚本集合，支持通过命令行访问 Android 传感器、电池状态、剪贴板、相机、通讯录等系统硬件与接口。",
       icon: "📱",
       url: "https://github.com/termux/termux-api-package"
     },
     {
-      title: "Termux 主题样式插件",
-      desc: "官方终端美化插件，可自由切换字体、配色主题，让你的 Termux 更个性。",
+      title: "termux-styling",
+      desc: "Termux 官方终端美化插件，支持在终端内长按切换字体与配色主题，需与主应用同签名安装。",
       icon: "🎨",
       url: "https://github.com/termux/termux-styling"
     },
     {
-      title: "Termux 桌面小部件",
-      desc: "在 Android 桌面添加 Termux 快捷命令小部件，一键运行常用脚本。",
+      title: "termux-widget",
+      desc: "在 Android 桌面添加 Termux 快捷命令小部件，支持前台执行 ~/.shortcuts/ 脚本与后台执行 ~/.shortcuts/tasks/ 任务。",
       icon: "🧩",
       url: "https://github.com/termux/termux-widget"
     },
     {
-      title: "Termux 开机自启脚本",
-      desc: "让 Termux 脚本在手机开机后自动运行，适合部署后台服务。",
+      title: "termux-boot",
+      desc: "Termux 开机自启插件，将脚本放入 ~/.termux/boot/ 目录即可在手机重启后自动运行，适合部署 SSH、后台服务等。",
       icon: "⏰",
       url: "https://github.com/termux/termux-boot"
     },
     {
-      title: "Termux 浮动窗口",
-      desc: "将 Termux 终端以浮动窗口形式悬浮在其他应用之上，随时操作。",
+      title: "termux-float",
+      desc: "将 Termux 终端以悬浮窗形式显示在其他应用之上，支持调整窗口大小与位置，随时呼出操作。",
       icon: "🪟",
       url: "https://github.com/termux/termux-float"
     },
