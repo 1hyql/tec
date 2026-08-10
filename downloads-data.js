@@ -93,21 +93,21 @@ const downloadsData = {
       desc: "为 Termux 提供全新界面和加载屏幕，提升终端视觉体验。",
       icon: "🖌️",
       url: "https://github.com/noob-hackers/T-LOAD",
-      install: "git clone https://github.com/noob-hackers/T-LOAD && cd T-LOAD && bash t-load.sh"
+      install: "git clone https://github.com/noob-hackers/T-LOAD && cd T-LOAD && ./t-load.sh"
     },
     {
       title: "Termux 登录保护",
       desc: "为 Termux 添加登录密码验证，增加设备使用安全性。",
       icon: "🔐",
       url: "https://github.com/htr-tech/termux-login",
-      install: "git clone https://github.com/htr-tech/termux-login && cd termux-login && bash setup.sh"
+      install: "git clone https://github.com/htr-tech/termux-login && cd termux-login && ./setup.sh"
     },
     {
       title: "Termux Shell 美化",
       desc: "提供多种 Shell 主题、配色方案和配置模板，一键更换。",
       icon: "💻",
       url: "https://github.com/htr-tech/termux-shell",
-      install: "git clone https://github.com/htr-tech/termux-shell && cd termux-shell && bash install.sh"
+      install: "git clone https://github.com/htr-tech/termux-shell && cd termux-shell && ./install.sh"
     }
   ],
 // ========应用与插件========
