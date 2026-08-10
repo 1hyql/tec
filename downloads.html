@@ -262,6 +262,14 @@ footer .footer-special:hover { color: #bb6bd9; text-decoration: underline; }
       <div class="downloads-grid" id="projectsGrid"></div>
     </div>
 
+    <div class="downloads-section">
+      <div class="section-header">
+        <h2>📱 应用与插件</h2>
+        <p>提升 Termux 使用体验的官方与社区应用</p>
+      </div>
+      <div class="downloads-grid" id="appsGrid"></div>
+    </div>
+
     <div class="downloads-more">
       <div class="section-header">
         <h2>📚 更多资源</h2>
@@ -331,6 +339,11 @@ function renderDownloads() {
   if (pg && downloadsData.projects) {
     pg.innerHTML = downloadsData.projects.map(item => renderCard(item, 'project')).join('');
   }
+
+  const ag = document.getElementById('appsGrid');
+  if (ag && downloadsData.apps) {
+    ag.innerHTML = downloadsData.apps.map(item => renderCard(item, 'app')).join('');
+  }
   
   const rg = document.getElementById('resourcesGrid');
   if (rg && downloadsData.resources) {
@@ -353,18 +366,20 @@ function renderCard(item, type) {
   const typeMap = {
     script: { btnClass: 'green', cardClass: 'script-card' },
     project: { btnClass: 'blue', cardClass: 'project-card' },
+    app: { btnClass: 'orange', cardClass: 'resource-card' },
     resource: { btnClass: 'orange', cardClass: 'resource-card' }
   };
   const { btnClass, cardClass } = typeMap[type] || typeMap.resource;
   const href = isGitHubUrl(item.url) ? 'github-redirect.html?target=' + encodeURIComponent(item.url) : item.url;
   const rel = isGitHubUrl(item.url) ? 'noopener noreferrer' : 'noopener';
 
-  const gitCmd = item.git || `git clone ${item.url}`;
+  const installCmd = item.install;
+  const cmdHtml = installCmd ? `<div class="git-command" data-cmd="${installCmd}"><code class="cmd-text"><span class="cmd-inner">${installCmd}</span></code><button class="copy-btn" aria-label="复制">复制</button></div>` : '';
   return `<div class="download-card ${cardClass}">
     <div class="download-icon" style="background:${ICON_BG}">${item.icon}</div>
     <h3>${item.title}</h3>
     <p>${item.desc}</p>
-    <div class="git-command" data-cmd="${gitCmd}"><code class="cmd-text"><span class="cmd-inner">${gitCmd}</span></code><button class="copy-btn" aria-label="复制">复制</button></div>
+    ${cmdHtml}
     <a href="${href}" class="download-btn ${btnClass}" target="_blank" rel="${rel}"><span>📥</span> 前往仓库下载</a>
   </div>`;
 }

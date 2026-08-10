@@ -305,17 +305,22 @@ function renderResults(query) {
   var all = [];
   if (downloadsData.scripts) {
     downloadsData.scripts.forEach(function(item) {
-      all.push({ title: item.title, desc: item.desc, icon: item.icon, url: item.url, git: item.git, category: '脚本工具' });
+      all.push({ title: item.title, desc: item.desc, icon: item.icon, url: item.url, install: item.install, category: '脚本工具' });
     });
   }
   if (downloadsData.projects) {
     downloadsData.projects.forEach(function(item) {
-      all.push({ title: item.title, desc: item.desc, icon: item.icon, url: item.url, git: item.git, category: '项目' });
+      all.push({ title: item.title, desc: item.desc, icon: item.icon, url: item.url, install: item.install, category: '项目' });
+    });
+  }
+  if (downloadsData.apps) {
+    downloadsData.apps.forEach(function(item) {
+      all.push({ title: item.title, desc: item.desc, icon: item.icon, url: item.url, install: item.install, category: '应用与插件' });
     });
   }
   if (downloadsData.resources) {
     downloadsData.resources.forEach(function(item) {
-      all.push({ title: item.title, desc: item.desc, icon: item.icon, url: item.url, git: item.git, category: '更多资源' });
+      all.push({ title: item.title, desc: item.desc, icon: item.icon, url: item.url, install: item.install, category: '更多资源' });
     });
   }
 
@@ -339,13 +344,14 @@ function renderResults(query) {
   var html = results.map(function(item) {
     var linkHref = './github-redirect.html?target=' + encodeURIComponent(item.url);
     var linkRel = 'noopener noreferrer';
-    var gitCmd = item.git || ('git clone ' + item.url);
+    var installCmd = item.install;
+    var cmdHtml = installCmd ? '<div class="git-command" data-cmd="' + installCmd + '"><code class="cmd-text"><span class="cmd-inner">' + installCmd + '</span></code><button class="copy-btn" aria-label="复制">复制</button></div>' : '';
     return '<div class="result-card">'
       + '<div class="result-icon" style="background:' + ICON_BG + '">' + item.icon + '</div>'
       + '<span class="category">' + item.category + '</span>'
       + '<h3>' + item.title + '</h3>'
       + '<p>' + item.desc + '</p>'
-      + '<div class="git-command" data-cmd="' + gitCmd + '"><code class="cmd-text">' + gitCmd + '</code><button class="copy-btn" aria-label="复制">复制</button></div>'
+      + cmdHtml
       + '<a href="' + linkHref + '" target="_blank" rel="' + linkRel + '"><span>📥</span> 前往仓库下载</a>'
       + '</div>';
   }).join('');
