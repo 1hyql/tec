@@ -137,6 +137,16 @@ footer p { font-size: 0.9rem; color: rgba(255,255,255,0.5); }
 .no-results p { color:var(--text-light);font-size:1rem; }
 @media(max-width:768px){ .page-header h1{font-size:2rem} .results-grid{grid-template-columns:1fr} .dl-search-wrap{padding:0 15px;margin-bottom:25px;} .dl-search-box input{padding:12px 14px;font-size:0.9rem;} .dl-search-box button{padding:12px 20px;font-size:0.85rem;} }
 @media(max-width:480px){ .page-header h1{font-size:1.7rem} }
+  /* Git command block styling */
+  .git-command { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:10px 12px; background: #f6f8fb; border-radius:8px; font-family: 'Courier New', monospace; color:var(--text); border:1px solid rgba(0,0,0,0.04); margin-top:12px; }
+  .git-command .cmd-text { display:block; width:100%; overflow-x:auto; overflow-y:hidden; white-space:nowrap; font-size:0.95rem; color:var(--text-muted); }
+  .git-command .cmd-text::-webkit-scrollbar { height:8px; }
+  .git-command .cmd-text::-webkit-scrollbar-track { background: transparent; }
+  .git-command .cmd-text::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.12); border-radius:8px; }
+  .git-command .cmd-text .cmd-inner { display:inline-block; padding-right:24px; will-change:transform; }
+  @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(calc(var(--shift, 0px) * -1)); } }
+  .git-command .copy-btn { display:none; background:var(--accent); color:#fff; border:none; padding:6px 10px; border-radius:6px; cursor:pointer; font-size:0.9rem; }
+  .git-command:hover .copy-btn { display:inline-block; }
   </style>
 </head>
 <body>
@@ -198,9 +208,12 @@ footer p { font-size: 0.9rem; color: rgba(255,255,255,0.5); }
       <p>&copy; 2026 Termux交流社区. 保留所有权利.</p>
     </div>
   </footer>
+  <script src="common.js"></script>
   <script src="downloads-data.js"></script>
   <script>
 const ICON_BG = 'linear-gradient(135deg, #f0f2f5 0%, #d5dbe3 100%)';
+
+// 复制命令相关由 common.js 提供，页面仅调用绑定函数
 function normalizeText(text) {
   return (text || '').toString().toLowerCase().replace(/[\p{P}\p{S}_]+/gu, ' ').replace(/\s+/g, ' ').trim();
 }
@@ -292,17 +305,17 @@ function renderResults(query) {
   var all = [];
   if (downloadsData.scripts) {
     downloadsData.scripts.forEach(function(item) {
-      all.push({ title: item.title, desc: item.desc, icon: item.icon, url: item.url, category: '脚本工具' });
+      all.push({ title: item.title, desc: item.desc, icon: item.icon, url: item.url, git: item.git, category: '脚本工具' });
     });
   }
   if (downloadsData.projects) {
     downloadsData.projects.forEach(function(item) {
-      all.push({ title: item.title, desc: item.desc, icon: item.icon, url: item.url, category: '项目' });
+      all.push({ title: item.title, desc: item.desc, icon: item.icon, url: item.url, git: item.git, category: '项目' });
     });
   }
   if (downloadsData.resources) {
     downloadsData.resources.forEach(function(item) {
-      all.push({ title: item.title, desc: item.desc, icon: item.icon, url: item.url, category: '更多资源' });
+      all.push({ title: item.title, desc: item.desc, icon: item.icon, url: item.url, git: item.git, category: '更多资源' });
     });
   }
 
@@ -326,16 +339,21 @@ function renderResults(query) {
   var html = results.map(function(item) {
     var linkHref = './github-redirect.html?target=' + encodeURIComponent(item.url);
     var linkRel = 'noopener noreferrer';
+    var gitCmd = item.git || ('git clone ' + item.url);
     return '<div class="result-card">'
       + '<div class="result-icon" style="background:' + ICON_BG + '">' + item.icon + '</div>'
       + '<span class="category">' + item.category + '</span>'
       + '<h3>' + item.title + '</h3>'
       + '<p>' + item.desc + '</p>'
+      + '<div class="git-command" data-cmd="' + gitCmd + '"><code class="cmd-text">' + gitCmd + '</code><button class="copy-btn" aria-label="复制">复制</button></div>'
       + '<a href="' + linkHref + '" target="_blank" rel="' + linkRel + '"><span>📥</span> 前往仓库下载</a>'
       + '</div>';
   }).join('');
 
   container.innerHTML = html;
+
+  // 绑定复制按钮
+  setupGitCopy();
 
   var obs = new IntersectionObserver(function(entries) {
     entries.forEach(function(entry) {

@@ -191,6 +191,16 @@ footer .footer-special:hover { color: #bb6bd9; text-decoration: underline; }
 
 @media(max-width:768px){ .page-header h1{font-size:2rem} .guide-card{padding:25px 20px} .dl-search-wrap{padding:0 15px;margin-bottom:25px;} .dl-search-box input{padding:12px 14px;font-size:0.9rem;} .dl-search-box button{padding:12px 20px;font-size:0.85rem;} }
 @media(max-width:480px){ .page-header h1{font-size:1.7rem} }
+  /* Git command block styling */
+  .git-command { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:10px 12px; background: #f6f8fb; border-radius:8px; font-family: 'Courier New', monospace; color:var(--text); border:1px solid rgba(0,0,0,0.04); margin-top:12px; }
+  .git-command .cmd-text { display:block; width:100%; overflow-x:auto; overflow-y:hidden; white-space:nowrap; font-size:0.95rem; color:var(--text-muted); }
+  .git-command .cmd-text::-webkit-scrollbar { height:8px; }
+  .git-command .cmd-text::-webkit-scrollbar-track { background: transparent; }
+  .git-command .cmd-text::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.12); border-radius:8px; }
+  .git-command .cmd-text .cmd-inner { display:inline-block; padding-right:24px; will-change:transform; }
+  @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(calc(var(--shift, 0px) * -1)); } }
+  .git-command .copy-btn { display:none; background:var(--accent); color:#fff; border:none; padding:6px 10px; border-radius:6px; cursor:pointer; font-size:0.9rem; }
+  .git-command:hover .copy-btn { display:inline-block; }
   </style>
 </head>
 <body>
@@ -289,9 +299,25 @@ footer .footer-special:hover { color: #bb6bd9; text-decoration: underline; }
       <p>&copy; 2026 Termux交流社区. 保留所有权利.</p>
     </div>
   </footer>
+  <script src="common.js"></script>
   <script src="downloads-data.js"></script>
   <script>
 const ICON_BG = 'linear-gradient(135deg, #f0f2f5 0%, #d5dbe3 100%)';
+
+function setupAnimations() {
+  const obsLocal = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) {
+        e.target.classList.add('animate-in');
+        obsLocal.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+  document.querySelectorAll('.download-card, .guide-card').forEach(function(el) {
+    el.style.opacity = '0';
+    obsLocal.observe(el);
+  });
+}
 
 function renderDownloads() {
   if (typeof downloadsData === 'undefined') return;
@@ -316,6 +342,7 @@ function renderDownloads() {
   }
 
   setupAnimations();
+  setupGitCopy();
 }
 
 function isGitHubUrl(url) {
@@ -332,15 +359,26 @@ function renderCard(item, type) {
   const href = isGitHubUrl(item.url) ? 'github-redirect.html?target=' + encodeURIComponent(item.url) : item.url;
   const rel = isGitHubUrl(item.url) ? 'noopener noreferrer' : 'noopener';
 
+  const gitCmd = item.git || `git clone ${item.url}`;
   return `<div class="download-card ${cardClass}">
     <div class="download-icon" style="background:${ICON_BG}">${item.icon}</div>
     <h3>${item.title}</h3>
     <p>${item.desc}</p>
+    <div class="git-command" data-cmd="${gitCmd}"><code class="cmd-text"><span class="cmd-inner">${gitCmd}</span></code><button class="copy-btn" aria-label="复制">复制</button></div>
     <a href="${href}" class="download-btn ${btnClass}" target="_blank" rel="${rel}"><span>📥</span> 前往仓库下载</a>
   </div>`;
 }
 
-document.addEventListener('DOMContentLoaded', renderDownloads);
+function ensureDownloadsData(cb) {
+  if (typeof downloadsData !== 'undefined') { cb(); return; }
+  var s = document.createElement('script');
+  s.src = 'downloads-data.js';
+  s.onload = function() { cb(); };
+  s.onerror = function() { console.error('无法加载 downloads-data.js'); cb(); };
+  document.head.appendChild(s);
+}
+
+document.addEventListener('DOMContentLoaded', function() { ensureDownloadsData(renderDownloads); });
 
 function doDlSearch() {
   const q = document.getElementById('dlSearchInput').value.trim();
@@ -403,12 +441,8 @@ const obs = new IntersectionObserver((es) => {
   });
 }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
 
-function setupAnimations() {
-  document.querySelectorAll('.download-card, .guide-card').forEach(el => {
-    el.style.opacity = '0';
-    obs.observe(el);
-  });
-}
+// 在 DOMContentLoaded 时也确保绑定一次（以防直接渲染）
+document.addEventListener('DOMContentLoaded', setupGitCopy);
   </script>
 </body>
 </html>
