@@ -44,7 +44,7 @@ const downloadsData = {
       desc: "Termux 一键配置脚本，集成 Zsh、Neovim、Git、Zellij 等开发工具，开箱即用，让移动端编码体验接近桌面。",
       icon: "🚀",
       url: "https://github.com/air-plus/oh-my-termux",
-      install: "git clone https://github.com/air-plus/oh-my-termux && cd oh-my-termux && ./install"
+      install: "git clone https://github.com/air-plus/oh-my-termux.git && cd oh-my-termux && chmod +x setup.sh && ./setup.sh"
     },
     {
       title: "PRoot-Distro 发行版管理",
