@@ -65,49 +65,35 @@ const downloadsData = {
       desc: "自动化安装 Elixir、Go、Python、Neovim、Node.js、Tmux 等开发工具。",
       icon: "🚀",
       url: "https://github.com/yuceltoluyag/termux.dot",
-      install: "git clone https://github.com/yuceltoluyag/termux.dot && cd termux.dot && ./install.sh"
+      install: "git clone https://github.com/yuceltoluyag/termux.dot && cd termux.dot && chmod +x install.sh && ./install.sh --all"
     },
     {
       title: "Termux 备份恢复 (snap)",
       desc: "Bash 脚本，支持全量备份与恢复，适用于有 root 和无 root 设备。",
       icon: "💾",
       url: "https://github.com/noob-hackers/snap",
-      install: "git clone https://github.com/noob-hackers/snap && cd snap && bash snap"
+      install: "git clone https://github.com/noob-hackers/snap && cd snap && bash snap.sh"
     },
     {
       title: "Termux USB 网络共享",
       desc: "通过 USB 线在 Android 设备间共享网络（非 root），基于 gnirehtet。",
       icon: "🔗",
       url: "https://github.com/AlphaBs/termux-gnirehtet",
-      install: "git clone https://github.com/AlphaBs/termux-gnirehtet && cd termux-gnirehtet && ./install.sh"
+      install: "git clone https://github.com/AlphaBs/termux-gnirehtet && cd termux-gnirehtet && ./gnirehtet run"
     },
     {
       title: "Termux Discord 机器人",
       desc: "为 Discord 服务器开发的机器人，使用 Lua + Luvit + Discordia 编写。",
       icon: "🤖",
       url: "https://github.com/ravener/termux-bot",
-      install: "git clone https://github.com/ravener/termux-bot && cd termux-bot && luvit main.lua"
+      install: "git clone https://github.com/ravener/termux-bot && cd termux-bot"
     },
     {
       title: "T-LOAD 界面美化",
       desc: "为 Termux 提供全新界面和加载屏幕，提升终端视觉体验。",
       icon: "🖌️",
       url: "https://github.com/noob-hackers/T-LOAD",
-      install: "git clone https://github.com/noob-hackers/T-LOAD && cd T-LOAD && ./t-load.sh"
-    },
-    {
-      title: "Termux 登录保护",
-      desc: "为 Termux 添加登录密码验证，增加设备使用安全性。",
-      icon: "🔐",
-      url: "https://github.com/htr-tech/termux-login",
-      install: "git clone https://github.com/htr-tech/termux-login && cd termux-login && ./setup.sh"
-    },
-    {
-      title: "Termux Shell 美化",
-      desc: "提供多种 Shell 主题、配色方案和配置模板，一键更换。",
-      icon: "💻",
-      url: "https://github.com/htr-tech/termux-shell",
-      install: "git clone https://github.com/htr-tech/termux-shell && cd termux-shell && ./install.sh"
+      install: "git clone https://github.com/noob-hackers/T-LOAD && cd T-LOAD && bash t-load.sh"
     }
   ],
 // ========应用与插件========
