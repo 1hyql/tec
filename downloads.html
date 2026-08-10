@@ -403,33 +403,6 @@ document.getElementById('dlSearchInput').addEventListener('keypress', function(e
   if (e.key === 'Enter') doDlSearch();
 });
 
-const menuToggle = document.getElementById('menuToggle');
-const menu = document.getElementById('menu');
-const closeMenuBtn = document.getElementById('closeMenu');
-const menuOverlay = document.getElementById('menuOverlay');
-
-function openMenu() {
-  menu.classList.add('active');
-  menuOverlay.classList.add('active');
-  menuToggle.classList.add('active');
-  document.body.style.overflow = 'hidden';
-}
-
-function closeMenuFn() {
-  menu.classList.remove('active');
-  menuOverlay.classList.remove('active');
-  menuToggle.classList.remove('active');
-  document.body.style.overflow = '';
-}
-
-if (menuToggle) {
-  menuToggle.addEventListener('click', () => {
-    menu.classList.contains('active') ? closeMenuFn() : openMenu();
-  });
-}
-if (closeMenuBtn) closeMenuBtn.addEventListener('click', closeMenuFn);
-if (menuOverlay) menuOverlay.addEventListener('click', closeMenuFn);
-
 const topNav = document.getElementById('topNav');
 if (topNav) {
   window.addEventListener('scroll', () => {
