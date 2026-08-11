@@ -226,41 +226,7 @@ footer .footer-special:hover { color: #bb6bd9; text-decoration: underline; }
       <p>最新动态与活动通知</p>
     </div>
 
-    <div class="announcement-list">
-      <div class="announcement-item pinned">
-        <div class="announcement-badge">📌 置顶</div>
-        <div class="announcement-content">
-          <h3>🔥 Termux 交流社区「避坑指南」征集活动启动</h3>
-          <div class="announcement-meta"><span>📅 2026年7月</span><span>🏷️ 活动</span></div>
-          <p>分享你在使用Termux过程中踩过的坑和解决方法，帮助更多新手少走弯路。优秀作品将获得社区专属奖励和荣誉展示。</p>
-          <a href="https://pd.qq.com/s/8ffej74a0?b=2" target="_blank" class="btn btn-primary" style="margin-top:15px;"><span>🔗</span> 查看详情</a>
-        </div>
-      </div>
-
-      <div class="announcement-item">
-        <div class="announcement-content">
-          <h3>🎉 Termux交流社区二群正式成立</h3>
-          <div class="announcement-meta"><span>📅 2026年5月</span><span>🏷️ 通知</span></div>
-          <p>QQ二群（1034443023）已正式成立，为新人提供更友好的交流环境。欢迎新成员加入！</p>
-        </div>
-      </div>
-
-      <div class="announcement-item">
-        <div class="announcement-content">
-          <h3>📺 社区宣传片发布</h3>
-          <div class="announcement-meta"><span>📅 2026年4月</span><span>🏷️ 动态</span></div>
-          <p>Termux交流社区宣传片已在哔哩哔哩发布，两分钟带你了解社区全貌。欢迎观看并分享给更多朋友。</p>
-        </div>
-      </div>
-
-      <div class="announcement-item">
-        <div class="announcement-content">
-          <h3>📝 社区文章征集计划启动</h3>
-          <div class="announcement-meta"><span>📅 2026年3月</span><span>🏷️ 活动</span></div>
-          <p>鼓励社区成员分享Termux使用经验、脚本教程、项目案例等原创内容。优秀文章将推荐至社区首页展示。</p>
-        </div>
-      </div>
-    </div>
+    <div class="announcement-list" id="announcementList"></div>
   </div>
   <button class="back-to-top" id="backToTop" title="回到顶部">↑</button>
   <footer>
@@ -276,20 +242,61 @@ footer .footer-special:hover { color: #bb6bd9; text-decoration: underline; }
       <p>&copy; 2026 Termux交流社区. 保留所有权利.</p>
     </div>
   </footer>
+  <script src="common.js"></script>
+  <script src="announcement-data.js"></script>
   <script>
-const menuToggle=document.getElementById('menuToggle'),menu=document.getElementById('menu'),closeMenuBtn=document.getElementById('closeMenu'),menuOverlay=document.getElementById('menuOverlay');
-function openMenu(){menu.classList.add('active');menuOverlay.classList.add('active');menuToggle.classList.add('active');document.body.style.overflow='hidden';}
-function closeMenuFn(){menu.classList.remove('active');menuOverlay.classList.remove('active');menuToggle.classList.remove('active');document.body.style.overflow='';}
-if(menuToggle)menuToggle.addEventListener('click',()=>{menu.classList.contains('active')?closeMenuFn():openMenu();});
-if(closeMenuBtn)closeMenuBtn.addEventListener('click',closeMenuFn);
-if(menuOverlay)menuOverlay.addEventListener('click',closeMenuFn);
-const topNav=document.getElementById('topNav');
-if(topNav)window.addEventListener('scroll',()=>{window.scrollY>50?topNav.classList.add('scrolled'):topNav.classList.remove('scrolled');});
-document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',function(e){const t=this.getAttribute('href');if(t==='#')return;const el=document.querySelector(t);if(el){e.preventDefault();const h=topNav?topNav.offsetHeight:60;window.scrollTo({top:el.offsetTop-h-20,behavior:'smooth'});closeMenuFn();}});});
-const btt=document.getElementById('backToTop');
-if(btt){window.addEventListener('scroll',()=>{window.scrollY>400?btt.classList.add('visible'):btt.classList.remove('visible');});btt.addEventListener('click',()=>{window.scrollTo({top:0,behavior:'smooth'});});}
-const obs=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('animate-in');obs.unobserve(e.target);}});},{threshold:0.1,rootMargin:'0px 0px -50px 0px'});
-document.querySelectorAll('.card,.feature-card,.article-card,.link-card,.download-card,.announcement-card,.announcement-item,.article-card-large,.faq-item,.stat-card,.timeline-item,.guide-card').forEach(el=>{el.style.opacity='0';obs.observe(el);});
+function renderAnnouncementItem(item) {
+  const pinnedClass = item.pinned ? ' pinned' : '';
+  const badgeHtml = item.pinned ? '<div class="announcement-badge">📌 置顶</div>' : '';
+  const btnHtml = (item.url && item.btnText) ? `<a href="${item.url}" target="_blank" rel="noopener" class="btn btn-primary" style="margin-top:15px;"><span>🔗</span> ${item.btnText}</a>` : '';
+  return `<div class="announcement-item${pinnedClass}">
+    ${badgeHtml}
+    <div class="announcement-content">
+      <h3>${item.title}</h3>
+      <div class="announcement-meta"><span>📅 ${item.date}</span><span>🏷️ ${item.tag}</span></div>
+      <p>${item.content}</p>
+      ${btnHtml}
+    </div>
+  </div>`;
+}
+
+function setupAnimations() {
+  const obsLocal = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) {
+        e.target.classList.add('animate-in');
+        obsLocal.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+  document.querySelectorAll('.announcement-item').forEach(function(el) {
+    el.style.opacity = '0';
+    obsLocal.observe(el);
+  });
+}
+
+function renderAnnouncements() {
+  if (typeof announcementData === 'undefined') return;
+  const list = document.getElementById('announcementList');
+  if (!list) return;
+  if (announcementData.length === 0) {
+    list.innerHTML = '<p style="text-align:center;color:var(--text-muted);padding:30px 0;">⏳ 暂无公告，敬请期待...</p>';
+    return;
+  }
+  list.innerHTML = announcementData.map(item => renderAnnouncementItem(item)).join('');
+  setupAnimations();
+}
+
+function ensureAnnouncementData(cb) {
+  if (typeof announcementData !== 'undefined') { cb(); return; }
+  var s = document.createElement('script');
+  s.src = 'announcement-data.js';
+  s.onload = function() { cb(); };
+  s.onerror = function() { console.error('无法加载 announcement-data.js'); cb(); };
+  document.head.appendChild(s);
+}
+
+document.addEventListener('DOMContentLoaded', function() { ensureAnnouncementData(renderAnnouncements); });
   </script>
 </body>
 </html>
