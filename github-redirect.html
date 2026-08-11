@@ -23,9 +23,15 @@
     .card p { color: var(--muted); line-height: 1.75; margin-bottom: 22px; }
     .status { display: inline-flex; align-items: center; gap: 10px; font-weight: 700; margin-bottom: 18px; }
     .status span { display: inline-flex; width: 10px; height: 10px; border-radius: 50%; }
-    .status.waiting span { background: #f59e0b; }
-    .status.success span { background: var(--success); }
+    .status.waiting span { background: #f59e0b; animation: none; }
+    .status.success span { background: var(--success); animation: successPulse 1.3s ease-in-out infinite; }
     .status.error span { background: var(--danger); }
+    @keyframes successPulse {
+      0% { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.45); transform: scale(1); }
+      50% { transform: scale(1.25); }
+      70% { box-shadow: 0 0 0 10px rgba(22, 163, 74, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0); transform: scale(1); }
+    }
     .target-box { background: #f8fafc; border: 1px solid rgba(37,99,235,0.12); border-radius: 12px; padding: 16px; word-break: break-all; margin-bottom: 20px; }
     .actions { display: flex; flex-wrap: wrap; gap: 12px; }
     .actions a, .actions button { border: none; border-radius: 999px; padding: 12px 20px; cursor: pointer; font-weight: 700; transition: transform 0.2s ease, filter 0.2s ease; text-decoration: none; }
@@ -34,6 +40,7 @@
     .btn-retry { background: var(--accent); color: #fff; }
     .btn-github { background: var(--success); color: #fff; }
     .hint { color: var(--muted); font-size: 0.95rem; margin-top: 14px; }
+    #message.message-success { color: var(--success); font-weight: 700; font-size: 1.1rem; letter-spacing: 0.3px; }
     .hidden { display: none; }
     @media (max-width: 520px) { .card { padding: 24px; } .actions { flex-direction: column; } }
   </style>
@@ -62,7 +69,9 @@
       statusLabel.className = 'status ' + type;
       statusLabel.querySelector('div').textContent = title;
       document.getElementById('mainTitle').textContent = title;
-      document.getElementById('message').textContent = message;
+      var msgEl = document.getElementById('message');
+      msgEl.textContent = message;
+      msgEl.className = 'message-' + type;
     }
 
     function showElement(id) { document.getElementById(id).classList.remove('hidden'); }
@@ -127,7 +136,29 @@
       openDirectBtn.href = decodedTarget;
     }
 
+    var dotsTimer = null;
+
+    function stopDotsAnimation() {
+      if (dotsTimer) {
+        clearInterval(dotsTimer);
+        dotsTimer = null;
+      }
+    }
+
+    function startDotsAnimation(baseText) {
+      stopDotsAnimation();
+      var msgEl = document.getElementById('message');
+      var base = baseText.replace(/…+$/, '');
+      var count = 0;
+      msgEl.textContent = base;
+      dotsTimer = setInterval(function() {
+        count = (count % 4) + 1;
+        msgEl.textContent = base + new Array(count + 1).join('…');
+      }, 350);
+    }
+
     function startCheck() {
+      stopDotsAnimation();
       if (!decodedTarget) {
         setStatus('error', '目标链接错误', '未检测到有效目标链接，请返回下载中心重新操作。');
         showElement('retryBtn');
@@ -149,11 +180,13 @@
       hideElement('openDirectBtn');
 
       checkGitHubAccessible(7000).then(function() {
-        setStatus('success', 'GitHub 可访问', '检测通过，正在为你跳转到仓库页面。');
+        setStatus('success', 'GitHub 可访问', '检测通过，正在为你跳转到仓库页面……');
+        startDotsAnimation('检测通过，正在为你跳转到仓库页面');
         showElement('openDirectBtn');
         setTimeout(function() {
+          stopDotsAnimation();
           window.location.href = decodedTarget;
-        }, 800);
+        }, 1500);
       }).catch(function() {
         setStatus('error', 'GitHub 检测失败', '当前检测方式未确认可访问 GitHub，但你仍可尝试直接打开仓库链接或切换网络后重试。');
         showElement('retryBtn');
