@@ -20,7 +20,7 @@ Termux 交流社区官网是一个纯静态网站，专为 Android Termux 用户
 ### 2. 下载中心（downloads.html）
 
 - **数据驱动渲染**：所有项目卡片从 `downloads-data.js` 自动读取并渲染
-- **三大分类**：脚本工具、项目、更多资源
+- **四大分类**：脚本工具、项目、应用与插件、更多资源
 - **搜索功能**：顶部搜索框输入关键词，跳转至 `search.html` 按相关性排序展示结果
 - **GitHub 跳转中间页**：点击下载按钮后进入过渡页，提示用户检查网络连通性，8 秒超时后显示失败提示
 
@@ -124,6 +124,7 @@ Termux 交流社区官网是一个纯静态网站，专为 Android Termux 用户
 ├── articles-data.js        # 文章数据源
 ├── announcement-data.js    # 公告数据源
 ├── github-redirect.html    # GitHub 跳转中间页
+├── logo.png                # 社区logo
 ├── README.md               # 本文件
 └── CONTRIBUTING.md         # 项目提交指南
 ```
