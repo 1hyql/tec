@@ -49,7 +49,7 @@ body {
 
 .top-nav {
   position: fixed; top: 0; left: 0; right: 0; height: 60px;
-  background: rgba(255,255,255,0.92); backdrop-filter: blur(12px);
+  background: rgba(255,255,255,0.92); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
   box-shadow: var(--shadow-sm); z-index: 998;
   display: flex; align-items: center; justify-content: space-between;
   padding: 0 30px; transition: var(--transition);
@@ -99,8 +99,8 @@ body {
   padding: 14px 18px; border-radius: var(--radius-sm); transition: var(--transition);
 }
 .menu ul li a:hover,.menu ul li a.active { background: var(--accent-light); color: var(--accent); }
-.menu-divider { height: 1px; background: linear-gradient(to right,transparent,#e0e0e0,transparent); margin: 15px 0; }
-.menu-section-title { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-muted); padding: 10px 18px; font-weight: 600; }
+.menu ul li.menu-divider { height: 1px; background: linear-gradient(to right,transparent,#e0e0e0,transparent); margin: 15px 0; padding: 0; overflow: hidden; }
+.menu ul li.menu-section-title { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-muted); padding: 10px 18px; font-weight: 600; }
 .close-btn { position: absolute; top: 18px; right: 20px; background: none; border: none; font-size: 1.4rem; cursor: pointer; color: var(--text-muted); width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: var(--transition); }
 .close-btn:hover { background: var(--accent-light); color: var(--accent); }
 
@@ -226,8 +226,8 @@ footer .footer-special:hover { color: #bb6bd9; text-decoration: underline; }
       <li><a href="announcement.html">📢 社区公告</a></li>
       <li><a href="about.html">📖 关于我们</a></li>
       <li><a href="contact.html">📧 联系我们</a></li>
-      <div class="menu-divider"></div>
-      <div class="menu-section-title">官方资源</div>
+      <li class="menu-divider" role="separator"></li>
+      <li class="menu-section-title">官方资源</li>
       <li><a href="https://termux.com" target="_blank">🌐 Termux官网</a></li>
       <li><a href="https://wiki.termux.com" target="_blank">📚 官方Wiki</a></li>
       <li><a href="https://github.com/termux" target="_blank">💻 GitHub仓库</a></li>
