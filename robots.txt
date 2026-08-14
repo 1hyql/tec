@@ -1,0 +1,9 @@
+# robots.txt for Termux交流社区
+# https://1hyql.github.io/termux/
+
+User-agent: *
+Allow: /
+
+Disallow: /github-redirect.html
+
+Sitemap: https://1hyql.github.io/termux/sitemap.xml
